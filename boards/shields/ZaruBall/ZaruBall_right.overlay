@@ -76,7 +76,7 @@
         &zip_xy_to_scroll_mapper          // 移動→スクロール（X→HWHEEL, Y→WHEEL）
         &zip_scroll_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_Y_INVERT)
         // ↑ X<->Y 入替で「X→縦」に、さらに縦を反転して「右=下」に合わせる
-        &zip_scroll_scaler 1 5
+        &zip_scroll_scaler 1 10
       >;
     };
 
@@ -88,7 +88,7 @@
         &zip_xy_to_scroll_mapper          // X→HWHEEL（横スクロール）
         // 方向が逆に感じたら下行を有効化：
         &zip_scroll_transform (INPUT_TRANSFORM_X_INVERT)
-        &zip_scroll_scaler 1 5
+        &zip_scroll_scaler 1 10
       >;
     };
   };
