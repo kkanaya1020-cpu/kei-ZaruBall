@@ -58,7 +58,6 @@
 
         /*   optional features   */
         // snipe-layers = <1 2>;
-        scroll-layers = <2 3>;
         automouse-layer = <1>;
     };
 };
@@ -67,5 +66,28 @@
   trackball_listener {
     compatible = "zmk,input-listener";
     device = <&trackball>;
+
+    // --- 縦スクロールモード：X だけを縦ホイールに変換（右=下／左=上）, Y は無効 ---
+    scroller_v {
+      layers = <<SCR_V>>;
+      input-processors = <
+        &zip_y_scaler 0 1                 // Y 成分をゼロ（横だけ生かす）
+        &zip_xy_to_scroll_mapper          // 移動→スクロール（X→HWHEEL, Y→WHEEL）
+        &zip_scroll_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_Y_INVERT)
+        // ↑ X<->Y 入替で「X→縦」に、さらに縦を反転して「右=下」に合わせる
+      >;
+    };
+
+    // --- 横スクロールモード：X を横ホイールに変換, Y は無効 ---
+    scroller_h {
+      layers = <<SCR_H>>;
+      input-processors = <
+        &zip_y_scaler 0 1                 // Y 成分をゼロ
+        &zip_xy_to_scroll_mapper          // X→HWHEEL（横スクロール）
+        // 方向が逆に感じたら下行を有効化：
+        // &zip_scroll_transform (INPUT_TRANSFORM_X_INVERT)
+      >;
+    };
   };
 };
+
