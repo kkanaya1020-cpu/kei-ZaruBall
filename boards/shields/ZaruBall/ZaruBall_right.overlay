@@ -72,25 +72,27 @@
     scroller_v {
       layers = <5>;
       input-processors = <
-        &zip_y_scaler 0 1                 // Y 成分をゼロ（横だけ生かす）
-        &zip_xy_to_scroll_mapper          // 移動→スクロール（X→HWHEEL, Y→WHEEL）
-        &zip_scroll_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_Y_INVERT)
-        // ↑ X<->Y 入替で「X→縦」に、さらに縦を反転して「右=下」に合わせる
-        &zip_scroll_scaler 1 10
+        &zip_y_scaler 0 1
+        &zip_x_scaler 1 2
+        &zip_xy_to_scroll_mapper
+        &zip_scroll_transform (INPUT_TRANSFORM_XY_SWAP)   // ← Y_INVERT を外す（今から逆に）
+        &zip_scroll_scaler 1 16                           // ← 速度も落とす（1/16）
       >;
     };
+
 
     // --- 横スクロールモード：X を横ホイールに変換, Y は無効 ---
     scroller_h {
       layers = <6>;
       input-processors = <
-        &zip_y_scaler 0 1                 // Y 成分をゼロ
-        &zip_xy_to_scroll_mapper          // X→HWHEEL（横スクロール）
-        // 方向が逆に感じたら下行を有効化：
-        // &zip_scroll_transform (INPUT_TRANSFORM_X_INVERT)
-        &zip_scroll_scaler 1 10
-      >;
-    };
+        &zip_y_scaler 0 1
+        &zip_x_scaler 1 2
+        &zip_xy_to_scroll_mapper
+        &zip_scroll_transform (INPUT_TRANSFORM_X_INVERT)  // ← 左右を反転（今から逆）
+        &zip_scroll_scaler 1 16
+  >;
+};
+
   };
 };
 
