@@ -6,6 +6,9 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
+#include <input/processors.dtsi>
+#include <dt-bindings/zmk/input_transform.h>
+
 
 #define BASE     0
 #define MOUSE    1
@@ -125,7 +128,7 @@
 &to_layer_0 TAB           &to_layer_0 Q   &to_layer_0 W   &to_layer_0 E   &to_layer_0 R   &to_layer_0 T                               &trans  &trans  &trans  &trans                      &to_layer_0 Y      &to_layer_0 U   &to_layer_0 I      &to_layer_0 O       &to_layer_0 P             &to_layer_0 EQUAL
 &to_layer_0 LEFT_SHIFT    &to_layer_0 A   &to_layer_0 S   &mkp MCLK       &mkp LCLK       &to_layer_0 G          &trans               &trans  &trans  &trans  &trans    &to_layer_0 LBKT  &to_layer_0 H      &mkp LCLK       &mkp RCLK          &to_layer_0 L       &to_layer_0 SINGLE_QUOTE  &to_layer_0 SEMICOLON
 &to_layer_0 LEFT_CONTROL  &to_layer_0 Z   &to_layer_0 X   &to_layer_0 C   &to_layer_0 V   &to_layer_0 B          &to_layer_0 GRAVE    &trans  &trans  &trans  &trans    &to_layer_0 RBKT  &to_layer_0 N      &to_layer_0 M   &to_layer_0 COMMA  &to_layer_0 PERIOD  &to_layer_0 SLASH         &to_layer_0 BACKSLASH
-&kp LEFT_GUI              &trans                          &trans          &trans          &to_layer_0 BACKSPACE  &kp LEFT_ALT                                           &kp RIGHT_GUI     &to_layer_0 ENTER                                                                                   &trans
+&kp LEFT_GUI              &trans                          &trans          &mo 5           &mo 6  &kp LEFT_ALT                                           &kp RIGHT_GUI     &to_layer_0 ENTER                                                                                   &trans
             >;
         };
 
@@ -164,6 +167,29 @@
 &trans  &kp C_MUTE         &trans  &trans  &trans  &trans                                      &trans    &kp EQUAL                                                                         &trans
             >;
         };
+
+        scr_v_layer {
+            display-name = "SCR_V";
+            bindings = <
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans
+            >;
+        };
+
+        scr_h_layer {
+            display-name = "SCR_H";
+            bindings = <
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans
+            >;
+        };
+
 
         // Extra layer can be added in ZMK STUDIO
 
