@@ -13,8 +13,9 @@
 #define MOUSE    1
 #define LOWER    2
 #define RAISE    3
-#define ADJUST   4
-#define SCROLL   2
+#define NUM      4
+#define SCR_V    5      // ← scr_v_layer
+#define SCR_H    6      // ← scr_h_layer
 
 // スクロール量の設定
 
