@@ -147,11 +147,11 @@
             display-name = "Raise";
             sensor-bindings = <&inc_dec_kp C_VOLUME_DOWN C_VOLUME_UP>;
             bindings = <
-&trans  &none           &none             &none               &none            &none             &trans  &trans  &trans  &trans              &none   &none      &none      &none  &none  &none
-&trans  &kp LS(LEFT)    &kp LS(UP_ARROW)  &kp LS(DOWN_ARROW)  &kp LS(RIGHT)    &none             &trans  &trans  &trans  &trans              &none   &mkp LCLK  &mkp RCLK  &none  &none  &none
-&trans  &kp LEFT_ARROW  &kp UP_ARROW      &kp DOWN_ARROW      &kp RIGHT_ARROW  &none   &trans    &trans  &trans  &trans  &trans    &kp HOME  &none   &mkp LCLK  &mkp RCLK  &none  &none  &none
-&trans  &none           &none             &none               &none            &none   &none     &trans  &trans  &trans  &trans    &kp END   &none   &none      &none      &none  &none  &none
-&trans  &none                             &trans              &trans           &trans  &trans                                      &trans    &trans                                      &trans
+&trans  &none               &none             &none               &none                &none             &trans  &trans  &trans  &trans              &none   &none      &none      &none  &none  &none
+&trans  &kp LS(LEFT)        &kp LS(UP_ARROW)  &kp LS(DOWN_ARROW)  &kp LS(RIGHT)        &none             &trans  &trans  &trans  &trans              &none   &mkp LCLK  &mkp RCLK  &none  &none  &none
+&trans  &kp LEFT_ARROW      &kp UP_ARROW      &kp DOWN_ARROW      &kp RIGHT_ARROW      &none   &trans    &trans  &trans  &trans  &trans    &kp HOME  &none   &mkp LCLK  &mkp RCLK  &none  &none  &none
+&trans  &kp LC(LEFT_ARROW)  &kp LC(UP_ARROW)  &kp LC(DOWN_ARROW)  &kp LC(RIGHT_ARROW)  &none   &none     &trans  &trans  &trans  &trans    &kp END   &none   &none      &none      &none  &none  &none
+&trans  &none                                 &trans              &trans               &trans  &trans                                      &trans    &trans                                      &trans
             >;
         };
 
