@@ -16,6 +16,8 @@
 #define NUM      4
 #define SCR_V    5      // ← scr_v_layer
 #define SCR_H    6      // ← scr_h_layer
+#define ADJUST   7
+
 
 // スクロール量の設定
 
@@ -26,9 +28,10 @@
         compatible = "zmk,conditional-layers";
 
         tri_layer {
-            if-layers = <2 3>;
-            then-layer = <4>;
+            if-layers = <LOWER RAISE>;   // ← 数値の代わりにマクロでOK
+            then-layer = <ADJUST>;       // ← 4 → ADJUST(=7)
         };
+
     };
 };
 
@@ -189,6 +192,18 @@
 &trans  &trans          &trans  &trans  &trans  &trans                                      &trans  &trans                                  &trans
             >;
         };
+
+        adjust_layer {
+          display-name = "ADJUST";
+          bindings = <
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans         &trans &trans &trans &trans                                   &trans &trans                                 &trans
+          >;
+        };
+
 
         // Extra layer can be added in ZMK STUDIO
 
