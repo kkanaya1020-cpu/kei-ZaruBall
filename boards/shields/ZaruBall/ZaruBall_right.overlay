@@ -60,6 +60,8 @@
         /*   optional features   */
         // snipe-layers = <1 2>;
         automouse-layer = <1>;
+        // force-awake;            // 入力の“抜け”を感じるなら有効化（消費↑）
+        // force-awake-4ms-mode;   // 有線等で高頻度にしたい場合のみ
     };
 };
 
@@ -72,26 +74,28 @@
     scroller_v {
       layers = <5>;
       input-processors = <
-        &zip_y_scaler 0 1
-        &zip_x_scaler 1 10
+        &zip_x_scaler 0 1          // Xは未使用（ダミー）
+        &zip_y_scaler 1 10         // 入力量（8〜12で微調整）
         &zip_xy_to_scroll_mapper
-        &zip_scroll_transform (INPUT_TRANSFORM_XY_SWAP)   // ← Y_INVERT を外す（今から逆に）
-        &zip_scroll_scaler 1 16                           // ← 速度も落とす（1/16）
+        // &zip_scroll_transform (INPUT_TRANSFORM_Y_INVERT) // ← 縦方向が逆ならこの1行を有効化
+        &zip_scroll_scaler 1 12    // スクロールの細かさ（10〜16で微調整）
       >;
-    };
+};
+
 
 
     // --- 横スクロールモード：X を横ホイールに変換, Y は無効 ---
     scroller_h {
       layers = <6>;
       input-processors = <
-        &zip_y_scaler 0 1
+        &zip_y_scaler 0 1          // Yは未使用（ダミー）
         &zip_x_scaler 1 10
         &zip_xy_to_scroll_mapper
-        &zip_scroll_transform (INPUT_TRANSFORM_X_INVERT)
-        &zip_scroll_scaler 1 16
-  >;
+        // &zip_scroll_transform (INPUT_TRANSFORM_X_INVERT) // ← 横方向が逆ならこの1行を有効化
+        &zip_scroll_scaler 1 12
+      >;
 };
+
 
   };
 };
