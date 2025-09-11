@@ -77,7 +77,7 @@
             &zip_x_scaler 0 1 // Xは未使用（ダミー） 
             &zip_y_scaler 1 12 // 入力量（8〜12で微調整） 
             &zip_xy_to_scroll_mapper 
-            // &zip_scroll_transform (INPUT_TRANSFORM_Y_INVERT) // ← 縦方向が逆ならこの1行を有効化 
+            &zip_scroll_transform (INPUT_TRANSFORM_Y_INVERT) // ← 縦方向が逆ならこの1行を有効化 
             &zip_scroll_scaler 1 12 // スクロールの細かさ（10〜16で微調整）
         >;
     };
