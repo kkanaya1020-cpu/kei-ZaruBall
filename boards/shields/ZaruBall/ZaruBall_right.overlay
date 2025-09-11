@@ -74,13 +74,15 @@
     scroller_v {
       layers = <5>;
       input-processors = <
-        &zip_x_scaler 0 1          // Xは未使用（ダミー）
-        &zip_y_scaler 1 12         // 入力量（8〜12で微調整）
+        &zip_x_scaler 1 12        // X を使う（数値↑で強く、↓で弱く）
+        &zip_y_scaler 0 1         // Y は完全無効
         &zip_xy_to_scroll_mapper
-        // &zip_scroll_transform (INPUT_TRANSFORM_Y_INVERT) // ← 縦方向が逆ならこの1行を有効化
-        &zip_scroll_scaler 1 10    // スクロールの細かさ（10〜16で微調整）
+        &zip_scroll_transform (INPUT_TRANSFORM_XY_SWAP) // X→Yに入れ替えて縦ホイール化
+        // &zip_scroll_transform (INPUT_TRANSFORM_Y_INVERT) // 方向が逆ならこの行も追加で有効化
+        &zip_scroll_scaler 1 12     // 数字↓で大きく、↑で細かく（例: 6→4でさらに大きく）
       >;
-};
+    };
+
 
 
 
@@ -88,13 +90,14 @@
     scroller_h {
       layers = <6>;
       input-processors = <
-        &zip_y_scaler 0 1          // Yは未使用（ダミー）
-        &zip_x_scaler 1 12
+        &zip_x_scaler 1 12        // X を使う
+        &zip_y_scaler 0 1         // Y は完全無効
         &zip_xy_to_scroll_mapper
-        // &zip_scroll_transform (INPUT_TRANSFORM_X_INVERT) // ← 横方向が逆ならこの1行を有効化
-        &zip_scroll_scaler 1 10
+        // &zip_scroll_transform (INPUT_TRANSFORM_X_INVERT) // 方向が逆ならこの行を有効化
+        &zip_scroll_scaler 1 12
       >;
-};
+    };
+
 
 
   };
