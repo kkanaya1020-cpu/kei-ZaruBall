@@ -122,8 +122,8 @@
             bindings = <
 &kp ESC           &kp N1      &kp N2  &kp N3              &kp N4     &kp N5                                          &kp KP_N7     &kp KP_N8  &kp KP_N9   &kp KP_DIVIDE                             &kp NUMBER_6         &kp N7  &kp N8     &kp N9   &kp N0    &kp EQUAL
 &kp TAB           &kp Q       &kp W   &kp E               &kp R      &kp T                                           &kp KP_N4     &kp KP_N5  &kp KP_N6   &kp KP_MULTIPLY                           &kp Y                &kp U   &kp I      &kp O    &kp P     &kp MINUS
-&lt 6 LG(SPACE)   &kp A       &kp S   &kp D               &kp F      &kp G               &kp LEFT_BRACKET            &kp KP_N1     &kp KP_N2  &kp KP_N3   &kp KP_MINUS       &kp RIGHT_BRACKET      &kp H                &kp J   &kp K      &kp L    &kp SEMI  &kp SQT
-&kp LEFT_CONTROL  &kp Z       &kp X   &kp C               &kp V      &kp B               &kp GRAVE                   &kp KP_ENTER  &kp KP_N0  &kp KP_DOT  &kp KP_PLUS        &kp BACKSLASH          &kp N                &kp M   &kp COMMA  &kp DOT  &kp FSLH  &kp RA(S)
+&lt 6 LG(SPACE)   &kp A       &kp S   &kp D               &kp F      &kp G               &kp GRAVE                   &kp KP_N1     &kp KP_N2  &kp KP_N3   &kp KP_MINUS       &kp BACKSLASH          &kp H                &kp J   &kp K      &kp L    &kp SEMI  &kp SQT
+&kp LEFT_CONTROL  &kp Z       &kp X   &kp C               &kp V      &kp B               &kp LEFT_BRACKET            &kp KP_ENTER  &kp KP_N0  &kp KP_DOT  &kp KP_PLUS        &kp RIGHT_BRACKET      &kp N                &kp M   &kp COMMA  &kp DOT  &kp FSLH  &kp RA(S)
 &lt 2 LG(C)       &kp C_MUTE          &lt 5 LA(UP_ARROW)  &kp SPACE  &mt LEFT_ALT LANG2  &mt LEFT_SHIFT BACKSPACE                                                            &mt RIGHT_SHIFT ENTER  &mt RIGHT_GUI LANG1                                        &lt 3 RG(V)
             >;
         };
@@ -133,8 +133,8 @@
             bindings = <
 &to_layer_0 ESCAPE        &to_layer_0 N1  &to_layer_0 N2  &to_layer_0 N3  &to_layer_0 N4     &to_layer_0 N5                                 &trans  &trans  &trans  &trans                               &to_layer_0 N6     &to_layer_0 N7  &to_layer_0 N8     &to_layer_0 N9      &to_layer_0 N0         &to_layer_0 EQUAL
 &to_layer_0 TAB           &to_layer_0 Q   &to_layer_0 W   &to_layer_0 E   &to_layer_0 R      &to_layer_0 T                                  &trans  &trans  &trans  &trans                               &to_layer_0 Y      &to_layer_0 U   &to_layer_0 I      &to_layer_0 O       &to_layer_0 P          &to_layer_0 MINUS
-&trans                    &to_layer_0 A   &to_layer_0 S   &mkp RCLK       &mkp LCLK          &to_layer_0 G      &to_layer_0 LEFT_BRACKET    &trans  &trans  &trans  &trans    &to_layer_0 RIGHT_BRACKET  &to_layer_0 H      &mkp LCLK       &mkp RCLK          &to_layer_0 L       &to_layer_0 SEMICOLON  &to_layer_0 SQT
-&to_layer_0 LEFT_CONTROL  &to_layer_0 Z   &to_layer_0 X   &to_layer_0 C   &to_layer_0 V      &to_layer_0 B      &to_layer_0 GRAVE           &trans  &trans  &trans  &trans    &to_layer_0 BACKSLASH      &to_layer_0 N      &to_layer_0 M   &to_layer_0 COMMA  &to_layer_0 PERIOD  &to_layer_0 SLASH      &to_layer_0 RA(S)
+&trans                    &to_layer_0 A   &to_layer_0 S   &mkp RCLK       &mkp LCLK          &to_layer_0 G      &to_layer_0 GRAVE           &trans  &trans  &trans  &trans    &to_layer_0 BACKSLASH      &to_layer_0 H      &mkp LCLK       &mkp RCLK          &to_layer_0 L       &to_layer_0 SEMICOLON  &to_layer_0 SQT
+&to_layer_0 LEFT_CONTROL  &to_layer_0 Z   &to_layer_0 X   &to_layer_0 C   &to_layer_0 V      &to_layer_0 B      &to_layer_0 LEFT_BRACKET    &trans  &trans  &trans  &trans    &to_layer_0 RIGHT_BRACKET  &to_layer_0 N      &to_layer_0 M   &to_layer_0 COMMA  &to_layer_0 PERIOD  &to_layer_0 SLASH      &to_layer_0 RA(S)
 &to_layer_0 LG(C)         &trans                          &trans          &to_layer_0 SPACE  &to_layer_0 LANG2  &to_layer_0 BACKSPACE                                         &to_layer_0 ENTER          &to_layer_0 LANG1                                                                                &to_layer_0 RG(V)
             >;
         };
