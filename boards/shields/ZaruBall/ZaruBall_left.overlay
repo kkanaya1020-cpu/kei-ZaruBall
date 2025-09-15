@@ -21,4 +21,12 @@
 
 &left_encoder {
     status = "okay";
+
+    // 取りこぼし対策：半ステップ（全エッジ）で数える
+    steps = <2>;            // ← これでビルド。もし unknown property なら下の resolution を使う
+    // resolution = <2>;    // ← steps でエラーが出たときだけ、こちらを有効化
+
+    // チャタリング対策：デバウンス 2ms
+    debounce = <2>;         // ← これでビルド。もし unknown property なら下の debounce-ms を使う
+    // debounce-ms = <2>;   // ← debounce でエラーが出たときだけ、こちらを有効化
 };
