@@ -59,16 +59,40 @@
 
         /*   optional features   */
         // snipe-layers = <1 2>;
-        automouse-layer = <1>;
+        // automouse-layer = <1>;
         // force-awake;            // 入力の“抜け”を感じるなら有効化（消費↑）
         // force-awake-4ms-mode;   // 有線等で高頻度にしたい場合のみ
     };
 };
 
 / {
+    /* --- Auto Mouse Layer timers --- */
+    /* 長い保持用：キーを押したら即解除（＝excluded-positionsは設定しない）*/
+    zip_temp_layer_long: zip_temp_layer_long {
+        compatible = "zmk,input-processor-temp-layer";
+        #input-processor-cells = <2>;
+        /* no excluded-positions */
+    };
+
+    /* クリック猶予用：マウス系キーは押しても解除しない＝タイムアウトで250msだけ残す */
+    zip_temp_layer_click: zip_temp_layer_click {
+        compatible = "zmk,input-processor-temp-layer";
+        #input-processor-cells = <2>;
+        /* ↓ここをあなたの「マウス系キー」のポジション番号に置き換えてください */
+        /* 例: 左/右/中クリック、進む/戻る など */
+        excluded-positions = <34 35 36 45 46 47>;
+    };
+};
+
+
+/ {
   trackball_listener {
     compatible = "zmk,input-listener";
     device = <&trackball>;
+    input-processors = <
+        &zip_temp_layer_long  1 30000
+        &zip_temp_layer_click 1 250
+    >;
 
     // --- 縦スクロールモード：X だけを縦ホイールに変換（右=下／左=上）, Y は無効 ---
     scroller_v {
