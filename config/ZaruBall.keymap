@@ -113,30 +113,22 @@
         cmd_click: cmd_click {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-        
             bindings =
-                /* 押す側 */
                 <&macro_press>,
-                <&kp LEFT_GUI>,          /* Cmd 押下 */
-                <&macro_wait_time 25>,   /* 修飾キーを確実に認識させる (USB:15-20/BLE:25-40 推奨) */
-                <&mkp LCLK>,             /* クリック押下 → Cmd+Click 状態 */
-        
-                <&macro_pause_for_release>, /* マクロキーを離すまでドラッグ可 */
-        
-                /* 離す側（順序と待ちが重要） */
+                <&kp LEFT_GUI>,
+                <&macro_wait_time 25>,
+                <&mkp LCLK>,
+                <&macro_pause_for_release>,
                 <&macro_release>,
-                <&macro_wait_time 5>,    /* 一拍おく（イベント合成対策） */
-                <&mkp LCLK>,             /* クリック離す */
-                <&macro_wait_time 15>,   /* Cmd は少し長めに保持してから離す */
-                <&kp LEFT_GUI>,          /* Cmd 離す */
-        
-                /* クリック後 250ms だけマウス層を維持（&sl の設定で 250ms） */
+                <&macro_wait_time 5>,
+                <&mkp LCLK>,
+                <&macro_wait_time 15>,
+                <&kp LEFT_GUI>,
                 <&macro_tap>,
                 <&sl MOUSE>;
-        
+
             label = "CMD_CLICK";
         };
-
     };
 };
 
@@ -148,11 +140,11 @@
             display-name = "Base";
             sensor-bindings = <&inc_dec_kp LA(LEFT_ARROW) LA(RIGHT_ARROW)>;
             bindings = <
-&kp ESC           &kp N1      &kp N2  &kp N3              &kp N4     &kp N5                                          &kp KP_N7     &kp KP_N8  &kp KP_N9   &kp KP_DIVIDE                             &kp NUMBER_6         &kp N7  &kp N8     &kp N9   &kp N0    &kp EQUAL
-&kp TAB           &kp Q       &kp W   &kp E               &kp R      &kp T                                           &kp KP_N4     &kp KP_N5  &kp KP_N6   &kp KP_MULTIPLY                           &kp Y                &kp U   &kp I      &kp O    &kp P     &kp MINUS
-&lt 6 LG(SPACE)   &kp A       &kp S   &kp D               &kp F      &kp G               &lt 4 GRAVE                 &kp KP_N1     &kp KP_N2  &kp KP_N3   &kp KP_MINUS       &kp BACKSLASH          &kp H                &kp J   &kp K      &kp L    &kp SEMI  &kp SQT
-&kp LEFT_CONTROL  &kp Z       &kp X   &kp C               &kp V      &kp B               &kp LEFT_BRACKET            &kp KP_ENTER  &kp KP_N0  &kp KP_DOT  &kp KP_PLUS        &kp RIGHT_BRACKET      &kp N                &kp M   &kp COMMA  &kp DOT  &kp FSLH  &kp RA(S)
-&lt 2 LG(C)       &kp C_MUTE          &lt 5 LA(UP_ARROW)  &kp SPACE  &mt LEFT_ALT LANG2  &mt LEFT_SHIFT BACKSPACE                                                            &mt RIGHT_SHIFT ENTER  &mt RIGHT_GUI LANG1                                        &lt 3 RG(V)
+&kp ESC                 &kp N1      &kp N2  &kp N3            &kp N4             &kp N5                                                       &kp KP_N7     &kp KP_N8  &kp KP_N9   &kp KP_DIVIDE                             &kp NUMBER_6         &kp N7  &kp N8     &kp N9   &kp N0    &kp EQUAL
+&kp TAB                 &kp Q       &kp W   &kp E             &kp R              &kp T                                                        &kp KP_N4     &kp KP_N5  &kp KP_N6   &kp KP_MULTIPLY                           &kp Y                &kp U   &kp I      &kp O    &kp P     &kp MINUS
+&kp BACKSPACE           &kp A       &kp S   &kp D             &kp F              &kp G               &mt LG(LS(NUMBER_4)) LG(LS(NUMBER_5))    &kp KP_N1     &kp KP_N2  &kp KP_N3   &kp KP_MINUS       &kp UP_ARROW           &kp H                &kp J   &kp K      &kp L    &kp SEMI  &kp ENTER
+&kp LEFT_ARROW          &kp Z       &kp X   &kp C             &kp V              &kp B               &kp LA(UP_ARROW)                         &kp KP_ENTER  &kp KP_N0  &kp KP_DOT  &kp KP_PLUS        &kp DOWN_ARROW         &kp N                &kp M   &kp COMMA  &kp DOT  &kp FSLH  &kp RIGHT_ARROW
+&mt LEFT_CONTROL LG(C)  &kp C_MUTE          &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &mt LEFT_ALT LANG2  &mt LEFT_SHIFT SPACE                                                                             &mt RIGHT_SHIFT SPACE  &mt RIGHT_GUI LANG1                                        &mt RIGHT_CONTROL RG(V)
             >;
         };
 
@@ -161,7 +153,7 @@
             bindings = <
 &to_layer_0 ESCAPE        &to_layer_0 N1  &to_layer_0 N2  &to_layer_0 N3      &to_layer_0 N4      &to_layer_0 N5                                 &trans  &trans  &trans  &trans                               &to_layer_0 N6     &to_layer_0 N7      &to_layer_0 N8      &to_layer_0 N9      &to_layer_0 N0         &to_layer_0 EQUAL
 &to_layer_0 TAB           &to_layer_0 Q   &to_layer_0 W   &to_layer_0 E       &to_layer_0 R       &to_layer_0 T                                  &trans  &trans  &trans  &trans                               &to_layer_0 Y      &to_layer_0 U       &to_layer_0 I       &to_layer_0 O       &to_layer_0 P          &to_layer_0 MINUS
-&trans                    &to_layer_0 A   &cmd_click      &mkp_exit_AML RCLK  &mkp_exit_AML LCLK  &to_layer_0 G      &to_layer_0 GRAVE           &trans  &trans  &trans  &trans    &to_layer_0 BACKSLASH      &to_layer_0 H      &mkp_exit_AML LCLK  &mkp_exit_AML RCLK  &cmd_click          &to_layer_0 SEMICOLON  &to_layer_0 SQT
+&to_layer_0 BACKSPACE     &to_layer_0 A   &cmd_click      &mkp_exit_AML RCLK  &mkp_exit_AML LCLK  &to_layer_0 G      &to_layer_0 GRAVE           &trans  &trans  &trans  &trans    &to_layer_0 BACKSLASH      &to_layer_0 H      &mkp_exit_AML LCLK  &mkp_exit_AML RCLK  &cmd_click          &to_layer_0 SEMICOLON  &to_layer_0 SQT
 &to_layer_0 LEFT_CONTROL  &to_layer_0 Z   &to_layer_0 X   &to_layer_0 C       &to_layer_0 V       &to_layer_0 B      &to_layer_0 LEFT_BRACKET    &trans  &trans  &trans  &trans    &to_layer_0 RIGHT_BRACKET  &to_layer_0 N      &to_layer_0 M       &to_layer_0 COMMA   &to_layer_0 PERIOD  &to_layer_0 SLASH      &to_layer_0 RA(S)
 &to_layer_0 LG(C)         &trans                          &trans              &to_layer_0 SPACE   &to_layer_0 LANG2  &to_layer_0 BACKSPACE                                         &to_layer_0 ENTER          &to_layer_0 LANG1                                                                                     &to_layer_0 RG(V)
             >;
@@ -172,9 +164,9 @@
             sensor-bindings = <&inc_dec_kp F14 F15>;
             bindings = <
 &trans  &none           &none         &none           &none            &none            &trans  &trans  &trans  &trans                          &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &bt BT_CLR_ALL
-&trans  &none           &none         &none           &none            &none            &trans  &trans  &trans  &trans                          &none         &kp F1        &kp F2        &kp F3        &kp F4        &kp F5
-&trans  &kp LEFT_ARROW  &kp UP_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &none  &trans    &trans  &trans  &trans  &trans    &kp RG(RS(NUMBER_5))  &none         &kp F6        &kp F7        &kp F8        &kp F9        &kp F10
-&trans  &none           &none         &none           &none            &none  &none     &trans  &trans  &trans  &trans    &kp RG(RS(NUMBER_4))  &none         &kp F11       &kp F12       &none         &none         &studio_unlock
+&trans  &none           &none         &none           &none            &none            &trans  &trans  &trans  &trans                          &none         &kp F1        &kp F2        &kp F3        &kp F4        &kp RC(GRAVE)
+&trans  &kp LEFT_ARROW  &kp UP_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &none  &trans    &trans  &trans  &trans  &trans    &kp RG(RS(NUMBER_5))  &none         &kp F5        &kp F6        &kp F7        &kp F8        &kp RG(ENTER)
+&trans  &none           &none         &none           &none            &none  &none     &trans  &trans  &trans  &trans    &kp RG(RS(NUMBER_4))  &none         &kp F9        &kp F10       &kp F11       &kp F12       &studio_unlock
 &trans  &none                         &trans          &none            &none  &none                                       &kp RG(ENTER)         &trans                                                                &trans
             >;
         };
