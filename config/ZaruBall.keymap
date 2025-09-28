@@ -26,8 +26,8 @@
         compatible = "zmk,conditional-layers";
 
         tri_layer {
-            if-layers = <LOWER RAISE>;
-            then-layer = <ADJUST>;
+            if-layers = <LOWER RAISE>;   // ← 数値の代わりにマクロでOK
+            then-layer = <ADJUST>;       // ← 4 → ADJUST(=7)
         };
     };
 };
@@ -40,13 +40,15 @@
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
             bindings = <&msc SCRL_DOWN>, <&msc SCRL_UP>;
-            tap-ms = <20>;
+
+            tap-ms = <20>; // スクロールのタップ時間
         };
 
+        // 方向が逆だと思ったら、下の別定義を有効化して置き換えればOK
         // scroll_up_down: behavior_sensor_rotate_mouse_wheel_up_down {
         //     compatible = "zmk,behavior-sensor-rotate";
         //     #sensor-binding-cells = <0>;
-        //     bindings = <&msc SCRL_UP>, <&msc SCRL_DOWN>;
+        //     bindings = <&msc SCRL_UP>, <&msc SCRL_DOWN>; // ↑と↓を反転
         //     tap-ms = <20>;
         // };
 
@@ -65,6 +67,7 @@
         };
 
         // Customed Hold-Tap for SandS
+
         SandS: SandS {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -72,10 +75,11 @@
             tapping-term-ms = <500>;
             quick-tap-ms = <500>;
             bindings = <&kp>, <&kp>;
+
             display-name = "SandS";
         };
 
-        /* ===== 追加: “押下直後に必ずBASEへ(to0)” 版の Behaviors 6種 ===== */
+        /* ===== 追加: “押下直後に必ずBASEへ(to0)” 版の Behaviors（前回の6種） ===== */
 
         /* A) tap=LANG1 / hold=RIGHT_GUI */
         to0_ht_rgui_lang1: to0_ht_rgui_lang1 {
@@ -136,6 +140,106 @@
             hold-while-undecided;
             bindings = <&to0_hold_mo5>, <&to0_tap_rbkt>;
         };
+
+        /* ===== 追加: “押下直後に必ずBASEへ(to0)” 版の Behaviors（今回の6種） ===== */
+
+        /* tap=U / hold=MSC: scroll down */
+        to0_ht_scrld_u: to0_ht_scrld_u {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            hold-while-undecided;
+            bindings = <&to0_hold_scrld>, <&to0_tap_u>;
+        };
+
+        /* tap=I / hold=MSC: scroll up */
+        to0_ht_scrlu_i: to0_ht_scrlu_i {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            hold-while-undecided;
+            bindings = <&to0_hold_scrlu>, <&to0_tap_i>;
+        };
+
+        /* tap=R / hold=MSC: scroll right */
+        to0_ht_scrlr_r: to0_ht_scrlr_r {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            hold-while-undecided;
+            bindings = <&to0_hold_scrlr>, <&to0_tap_r>;
+        };
+
+        /* tap=E / hold=MSC: scroll left */
+        to0_ht_scrll_e: to0_ht_scrll_e {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            hold-while-undecided;
+            bindings = <&to0_hold_scrll>, <&to0_tap_e>;
+        };
+
+        /* LT相当：tap=Left GUI+V / hold中だけ Layer 3 */
+        to0_lt3_lgui_v: to0_lt3_lgui_v {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            hold-while-undecided;
+            bindings = <&to0_hold_mo3>, <&to0_tap_lgui_v>;
+        };
+
+        /* LT相当：tap=Left Alt+Up / hold中だけ Layer 2 */
+        to0_lt2_lalt_up: to0_lt2_lalt_up {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            hold-while-undecided;
+            bindings = <&to0_hold_mo2>, <&to0_tap_lalt_up>;
+        };
+
+        /* ===== 追加: to0無し（シンプル）版の Behaviors（今回の4種） ===== */
+
+        /* tap=U / hold=MSC: scroll down */
+        ht_scrld_u: ht_scrld_u {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            bindings = <&hold_scrld>, <&tap_u>;
+        };
+
+        /* tap=I / hold=MSC: scroll up */
+        ht_scrlu_i: ht_scrlu_i {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            bindings = <&hold_scrlu>, <&tap_i>;
+        };
+
+        /* tap=R / hold=MSC: scroll right */
+        ht_scrlr_r: ht_scrlr_r {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            bindings = <&hold_scrlr>, <&tap_r>;
+        };
+
+        /* tap=E / hold=MSC: scroll left */
+        ht_scrll_e: ht_scrll_e {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+            bindings = <&hold_scrll>, <&tap_e>;
+        };
     };
 };
 
@@ -143,6 +247,7 @@
 / {
     macros {
         // When in AML, move to default layer when key (except mouse button) pressed
+
         to_layer_0: to_layer_0 {
             compatible = "zmk,behavior-macro-one-param";
             #binding-cells = <1>;
@@ -151,6 +256,7 @@
         };
 
         // When LCLK pressed, exit AML (after 250ms cause by sticky layer
+
         mkp_exit_AML: mkp_exit_AML {
             compatible = "zmk,behavior-macro-one-param";
             #binding-cells = <1>;
@@ -162,6 +268,7 @@
                 <&macro_param_1to1 &mkp MACRO_PLACEHOLDER>,
                 <&macro_tap>,
                 <&sl MOUSE>;
+
             label = "MKP_EXIT_AML";
         };
 
@@ -181,10 +288,11 @@
                 <&kp LEFT_GUI>,
                 <&macro_tap>,
                 <&sl MOUSE>;
+
             label = "CMD_CLICK";
         };
 
-        /* ===== 追加: “押下直後に必ずBASEへ(to0)” 版の Macros（Behaviorsが呼ぶ部品） ===== */
+        /* ===== 追加: “押下直後に必ずBASEへ(to0)” 版の Macros（前回の6種の部品） ===== */
 
         /* ---- HOLD 側（修飾押しっぱなし） ---- */
         to0_hold_rgui: to0_hold_rgui {
@@ -302,6 +410,105 @@
             #binding-cells = <0>;
             bindings = <&to 0>, <&kp RIGHT_BRACKET>;
         };
+
+        /* ===== 追加: “押下直後に必ずBASEへ(to0)” 版の Macros（今回の6種の部品） ===== */
+
+        /* ── Hold側：スクロール（押している間だけ） ── */
+        to0_hold_scrld: to0_hold_scrld {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to 0>, <&macro_press>, <&msc SCRL_DOWN>,  <&macro_pause_for_release>, <&macro_release>;
+        };
+        to0_hold_scrlu: to0_hold_scrlu {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to 0>, <&macro_press>, <&msc SCRL_UP>,    <&macro_pause_for_release>, <&macro_release>;
+        };
+        to0_hold_scrlr: to0_hold_scrlr {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to 0>, <&macro_press>, <&msc SCRL_RIGHT>, <&macro_pause_for_release>, <&macro_release>;
+        };
+        to0_hold_scrll: to0_hold_scrll {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to 0>, <&macro_press>, <&msc SCRL_LEFT>,  <&macro_pause_for_release>, <&macro_release>;
+        };
+
+        /* ── Tap側（単発キーやコンボ） ── */
+        to0_tap_u: to0_tap_u {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to 0>, <&kp U>;
+        };
+        to0_tap_i: to0_tap_i {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to 0>, <&kp I>;
+        };
+        to0_tap_r: to0_tap_r {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to 0>, <&kp R>;
+        };
+        to0_tap_e: to0_tap_e {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to 0>, <&kp E>;
+        };
+
+        /* ── LT相当（holdでレイヤー維持 / tapでコンボ） ── */
+        to0_hold_mo3: to0_hold_mo3 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to 0>, <&macro_press>, <&mo 3>, <&macro_pause_for_release>, <&macro_release>;
+        };
+        to0_tap_lgui_v: to0_tap_lgui_v {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to 0>, <&macro_press>, <&kp LEFT_GUI>, <&kp V>, <&macro_release>;
+        };
+
+        to0_hold_mo2: to0_hold_mo2 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to 0>, <&macro_press>, <&mo 2>, <&macro_pause_for_release>, <&macro_release>;
+        };
+        to0_tap_lalt_up: to0_tap_lalt_up {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to 0>, <&macro_press>, <&kp LEFT_ALT>, <&kp UP_ARROW>, <&macro_release>;
+        };
+
+        /* ===== 追加: to0無し（シンプル）版の Macros（今回の4種の部品） ===== */
+
+        /* ── Hold側（スクロール） ── */
+        hold_scrld: hold_scrld {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&macro_press>, <&msc SCRL_DOWN>,  <&macro_pause_for_release>, <&macro_release>;
+        };
+        hold_scrlu: hold_scrlu {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&macro_press>, <&msc SCRL_UP>,    <&macro_pause_for_release>, <&macro_release>;
+        };
+        hold_scrlr: hold_scrlr {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&macro_press>, <&msc SCRL_RIGHT>, <&macro_pause_for_release>, <&macro_release>;
+        };
+        hold_scrll: hold_scrll {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&macro_press>, <&msc SCRL_LEFT>,  <&macro_pause_for_release>, <&macro_release>;
+        };
+
+        /* ── Tap側（単発キー） ── */
+        tap_u: tap_u { compatible = "zmk,behavior-macro"; #binding-cells = <0>; bindings = <&kp U>; };
+        tap_i: tap_i { compatible = "zmk,behavior-macro"; #binding-cells = <0>; bindings = <&kp I>; };
+        tap_r: tap_r { compatible = "zmk,behavior-macro"; #binding-cells = <0>; bindings = <&kp R>; };
+        tap_e: tap_e { compatible = "zmk,behavior-macro"; #binding-cells = <0>; bindings = <&kp E>; };
     };
 };
 
@@ -316,94 +523,4 @@
 &kp ESC                 &kp N1      &kp N2  &kp N3            &kp N4             &kp N5                                                       &kp KP_N7     &kp KP_N8  &kp KP_N9   &kp KP_DIVIDE                             &kp NUMBER_6         &kp N7  &kp N8     &kp N9   &kp N0    &kp EQUAL
 &kp TAB                 &kp Q       &kp W   &kp E             &kp R              &kp T                                                        &kp KP_N4     &kp KP_N5  &kp KP_N6   &kp KP_MULTIPLY                           &kp Y                &kp U   &kp I      &kp O    &kp P     &kp MINUS
 &kp BACKSPACE           &kp A       &kp S   &kp D             &kp F              &kp G               &mt LG(LS(NUMBER_4)) LG(LS(NUMBER_5))    &kp KP_N1     &kp KP_N2  &kp KP_N3   &kp KP_MINUS       &kp UP_ARROW           &kp H                &kp J   &kp K      &kp L    &kp SEMI  &kp ENTER
-&kp LEFT_ARROW          &kp Z       &kp X   &kp C             &kp V              &kp B               &kp LA(UP_ARROW)                         &kp KP_ENTER  &kp KP_N0  &kp KP_DOT  &kp KP_PLUS        &kp DOWN_ARROW         &kp N                &kp M   &kp COMMA  &kp DOT  &kp FSLH  &kp RIGHT_ARROW
-&mt LEFT_CONTROL LG(C)  &kp C_MUTE          &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &mt LEFT_ALT LANG2  &mt LEFT_SHIFT SPACE                                                                             &mt RIGHT_SHIFT SPACE  &mt RIGHT_GUI LANG1                                        &mt RIGHT_CONTROL RG(V)
-            >;
-        };
-
-        mouse_layer {
-            display-name = "Mouse";
-            bindings = <
-&to_layer_0 ESCAPE        &to_layer_0 N1  &to_layer_0 N2  &to_layer_0 N3      &to_layer_0 N4      &to_layer_0 N5                                 &trans  &trans  &trans  &trans                               &to_layer_0 N6     &to_layer_0 N7      &to_layer_0 N8      &to_layer_0 N9      &to_layer_0 N0         &to_layer_0 EQUAL
-&to_layer_0 TAB           &to_layer_0 Q   &to_layer_0 W   &to_layer_0 E       &to_layer_0 R       &to_layer_0 T                                  &trans  &trans  &trans  &trans                               &to_layer_0 Y      &to_layer_0 U       &to_layer_0 I       &to_layer_0 O       &to_layer_0 P          &to_layer_0 MINUS
-&to_layer_0 BACKSPACE     &to_layer_0 A   &cmd_click      &mkp_exit_AML RCLK  &mkp_exit_AML LCLK  &to_layer_0 G      &to_layer_0 GRAVE           &trans  &trans  &trans  &trans    &to_layer_0 BACKSLASH      &to_layer_0 H      &mkp_exit_AML LCLK  &mkp_exit_AML RCLK  &cmd_click          &to_layer_0 SEMICOLON  &to_layer_0 SQT
-&to_layer_0 LEFT_CONTROL  &to_layer_0 Z   &to_layer_0 X   &to_layer_0 C       &to_layer_0 V       &to_layer_0 B      &to_layer_0 LEFT_BRACKET    &trans  &trans  &trans  &trans    &to_layer_0 RIGHT_BRACKET  &to_layer_0 N      &to_layer_0 M       &to_layer_0 COMMA   &to_layer_0 PERIOD  &to_layer_0 SLASH      &to_layer_0 RA(S)
-&to_layer_0 LG(C)         &trans                          &trans              &to_layer_0 SPACE   &to_layer_0 LANG2  &to_layer_0 BACKSPACE                                         &to_layer_0 ENTER          &to_layer_0 LANG1                                                                                     &to_layer_0 RG(V)
-            >;
-        };
-
-        Fn_layer {
-            display-name = "Fn";
-            sensor-bindings = <&inc_dec_kp F14 F15>;
-            bindings = <
-&trans  &none           &none         &none           &none            &none            &trans  &trans  &trans  &trans                          &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &bt BT_CLR_ALL
-&trans  &none           &none         &none           &none            &none            &trans  &trans  &trans  &trans                          &none         &kp F1        &kp F2        &kp F3        &kp F4        &kp RC(GRAVE)
-&trans  &kp LEFT_ARROW  &kp UP_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &none  &trans    &trans  &trans  &trans  &trans    &kp RG(RS(NUMBER_5))  &none         &kp F5        &kp F6        &kp F7        &kp F8        &kp RG(ENTER)
-&trans  &none           &none         &none           &none            &none  &none     &trans  &trans  &trans  &trans    &kp RG(RS(NUMBER_4))  &none         &kp F9        &kp F10       &kp F11       &kp F12       &studio_unlock
-&trans  &none                         &trans          &none            &none  &none                                       &kp RG(ENTER)         &trans                                                                &trans
-            >;
-        };
-
-        raise_layer {
-            display-name = "Raise";
-            sensor-bindings = <&inc_dec_kp LC(LEFT_ARROW) LC(RIGHT_ARROW)>;
-            bindings = <
-&trans  &kp LG(LEFT_ARROW)      &kp LG(UP_ARROW)      &kp LG(DOWN_ARROW)      &kp LG(RIGHT_ARROW)      &none             &trans  &trans  &trans  &trans                   &none   &none               &none                &none  &none  &none
-&trans  &kp LS(LEFT)            &kp LS(UP_ARROW)      &kp LS(DOWN_ARROW)      &kp LS(RIGHT)            &none             &trans  &trans  &trans  &trans                   &none   &kp RG(LEFT_ARROW)  &kp RG(RIGHT_ARROW)  &none  &none  &none
-&trans  &kp LEFT_ARROW          &kp UP_ARROW          &kp DOWN_ARROW          &kp RIGHT_ARROW          &none   &trans    &trans  &trans  &trans  &trans    &none          &none   &mkp LCLK           &mkp RCLK            &none  &none  &none
-&trans  &kp LS(LG(LEFT_ARROW))  &kp LS(LG(UP_ARROW))  &kp LS(LG(DOWN_ARROW))  &kp LS(LG(RIGHT_ARROW))  &none   &none     &trans  &trans  &trans  &trans    &none          &none   &kp HOME            &kp END              &none  &none  &none
-&trans  &none                                         &kp LC(UP_ARROW)        &trans                   &trans  &trans                                      &kp LG(ENTER)  &trans                                                         &trans
-            >;
-        };
-
-        number_layer {
-            display-name = "number";
-            sensor-bindings = <&inc_dec_kp C_VOLUME_DOWN C_VOLUME_UP>;
-            bindings = <
-&trans  &none       &none  &none   &none   &none             &trans  &trans  &trans  &trans              &none         &none            &none            &none            &none            &none
-&trans  &none       &none  &none   &none   &none             &trans  &trans  &trans  &trans              &kp PLUS      &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_NUMBER_3  &kp KP_NUMBER_4  &kp KP_NUMBER_5
-&trans  &none       &none  &none   &none   &none   &none     &trans  &trans  &trans  &trans    &kp HOME  &kp KP_MINUS  &kp KP_NUMBER_6  &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &kp KP_NUMBER_0
-&trans  &none       &none  &none   &none   &none   &none     &trans  &trans  &trans  &trans    &kp END   &kp ASTERISK  &kp SLASH        &kp COMMA        &kp PERIOD       &none            &none
-&trans  &kp C_MUTE         &trans  &trans  &trans  &trans                                      &trans    &kp EQUAL                                                                         &trans
-            >;
-        };
-
-        scr_v_layer {
-            display-name = "SCR_V";
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans          &trans  &trans  &trans  &trans                                      &trans  &trans                                  &trans
-            >;
-            sensor-bindings = <&inc_dec_kp F14 F15>;
-        };
-
-        scr_h_layer {
-            display-name = "SCR_H";
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans          &trans  &trans  &trans  &trans                                      &trans  &trans                                  &trans
-            >;
-        };
-
-        adjust_layer {
-            display-name = "ADJUST";
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans          &trans  &trans  &trans  &trans                                      &trans  &trans                                  &trans
-            >;
-        };
-
-        // Extra layer can be added in ZMK STUDIO
-        extra1 { status = "reserved"; };
-        extra2 { status = "reserved"; };
-    };
-};
+&kp LEFT_ARROW          &kp Z       &kp X   &kp C             &kp V              &kp B               &kp LA(UP_ARROW)
