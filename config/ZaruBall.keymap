@@ -129,6 +129,19 @@
 
             label = "CMD_CLICK";
         };
+        exit_mouse_and_mt: exit_mouse_and_mt {
+           compatible = "zmk,behavior-macro-two-param";
+           #binding-cells = <2>;
+           bindings =
+             <&macro_press>,
+             <&to BASE>,                         /* マウス層から“必ず”離脱（トグルではなく強制遷移） */
+             <&macro_wait_time 10>,              /* レイヤー切替の反映待ち（5–15msで調整） */
+             <&macro_param_2to2 &mt MACRO_PLACEHOLDER>,   /* &mt MOD KEY を押下 */
+             <&macro_pause_for_release>,         /* 物理キーを離すまで待機（この長さで tap/hold 判定） */
+             <&macro_release>,
+             <&macro_param_2to2 &mt MACRO_PLACEHOLDER>;   /* &mt MOD KEY を離す */
+           label = "EXIT_MOUSE_AND_MT";
+        };
     };
 };
 
