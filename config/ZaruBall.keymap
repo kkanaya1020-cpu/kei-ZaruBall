@@ -26,8 +26,8 @@
         compatible = "zmk,conditional-layers";
 
         tri_layer {
-            if-layers = <LOWER RAISE>;   // ← 数値の代わりにマクロでOK
-            then-layer = <ADJUST>;       // ← 4 → ADJUST(=7)
+            if-layers = <LOWER RAISE>;
+            then-layer = <ADJUST>;
         };
     };
 };
@@ -40,15 +40,13 @@
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
             bindings = <&msc SCRL_DOWN>, <&msc SCRL_UP>;
-
-            tap-ms = <20>; // スクロールのタップ時間
+            tap-ms = <20>;
         };
 
-        // 方向が逆だと思ったら、下の別定義を有効化して置き換えればOK
         // scroll_up_down: behavior_sensor_rotate_mouse_wheel_up_down {
         //     compatible = "zmk,behavior-sensor-rotate";
         //     #sensor-binding-cells = <0>;
-        //     bindings = <&msc SCRL_UP>, <&msc SCRL_DOWN>; // ↑と↓を反転
+        //     bindings = <&msc SCRL_UP>, <&msc SCRL_DOWN>;
         //     tap-ms = <20>;
         // };
 
@@ -67,7 +65,6 @@
         };
 
         // Customed Hold-Tap for SandS
-
         SandS: SandS {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -75,7 +72,6 @@
             tapping-term-ms = <500>;
             quick-tap-ms = <500>;
             bindings = <&kp>, <&kp>;
-
             display-name = "SandS";
         };
 
@@ -84,7 +80,7 @@
         /* A) tap=LANG1 / hold=RIGHT_GUI */
         to0_ht_rgui_lang1: to0_ht_rgui_lang1 {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <0>;
+            #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <200>;
             hold-while-undecided;
@@ -94,7 +90,7 @@
         /* B) tap=LANG2 / hold=LEFT_ALT */
         to0_ht_lalt_lang2: to0_ht_lalt_lang2 {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <0>;
+            #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <200>;
             hold-while-undecided;
@@ -104,7 +100,7 @@
         /* C) tap=LEFT_GUI + C / hold=LEFT_CONTROL */
         to0_ht_lctl_lguic: to0_ht_lctl_lguic {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <0>;
+            #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <200>;
             hold-while-undecided;
@@ -114,7 +110,7 @@
         /* D) tap=RIGHT_GUI + V / hold=RIGHT_CONTROL */
         to0_ht_rctl_rguiv: to0_ht_rctl_rguiv {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <0>;
+            #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <200>;
             hold-while-undecided;
@@ -124,7 +120,7 @@
         /* LT(自作) その1: tap=[ , hold中は Layer 6 */
         to0_lt6_lbkt: to0_lt6_lbkt {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <0>;
+            #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <200>;
             hold-while-undecided;
@@ -134,7 +130,7 @@
         /* LT(自作) その2: tap=] , hold中は Layer 5 */
         to0_lt5_rbkt: to0_lt5_rbkt {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <0>;
+            #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <200>;
             hold-while-undecided;
@@ -147,7 +143,6 @@
 / {
     macros {
         // When in AML, move to default layer when key (except mouse button) pressed
-
         to_layer_0: to_layer_0 {
             compatible = "zmk,behavior-macro-one-param";
             #binding-cells = <1>;
@@ -156,7 +151,6 @@
         };
 
         // When LCLK pressed, exit AML (after 250ms cause by sticky layer
-
         mkp_exit_AML: mkp_exit_AML {
             compatible = "zmk,behavior-macro-one-param";
             #binding-cells = <1>;
@@ -168,7 +162,6 @@
                 <&macro_param_1to1 &mkp MACRO_PLACEHOLDER>,
                 <&macro_tap>,
                 <&sl MOUSE>;
-
             label = "MKP_EXIT_AML";
         };
 
@@ -188,7 +181,6 @@
                 <&kp LEFT_GUI>,
                 <&macro_tap>,
                 <&sl MOUSE>;
-
             label = "CMD_CLICK";
         };
 
@@ -385,7 +377,6 @@
 &trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans          &trans  &trans  &trans  &trans                                      &trans  &trans                                  &trans
             >;
-
             sensor-bindings = <&inc_dec_kp F14 F15>;
         };
 
@@ -412,9 +403,7 @@
         };
 
         // Extra layer can be added in ZMK STUDIO
-
         extra1 { status = "reserved"; };
-
         extra2 { status = "reserved"; };
     };
 };
