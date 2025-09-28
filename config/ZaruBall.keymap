@@ -7,6 +7,8 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
+#define SCRL_LEFT  WHL_LEFT
+#define SCRL_RIGHT WHL_RIGHT
 
 #define BASE     0
 #define MOUSE    1
