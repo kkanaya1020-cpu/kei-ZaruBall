@@ -96,40 +96,40 @@
         // When LCLK pressed, exit AML after 250ms
 
         mkp_exit_AML: mkp_exit_AML {
-        compatible = "zmk,behavior-macro-one-param";
-        #binding-cells = <1>;
-        bindings =
-            <&macro_press>,
-            <&macro_param_1to1 &mkp MACRO_PLACEHOLDER>, /* クリック押下 */
-            <&macro_pause_for_release>,                 /* ドラッグ対応：離すまで保持 */
-            <&macro_release>,
-            <&macro_param_1to1 &mkp MACRO_PLACEHOLDER>, /* クリック離す */
-            <&macro_wait_time 300>,
-            <&macro_tap>, <&kp F24>;
-        label = "MKP_EXIT_AML";
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            bindings =
+                <&macro_press>,
+                <&macro_param_1to1 &mkp MACRO_PLACEHOLDER>,
+                <&macro_pause_for_release>,
+                <&macro_release>,
+                <&macro_param_1to1 &mkp MACRO_PLACEHOLDER>,
+                <&macro_wait_time 300>,
+                <&macro_tap>,
+                <&kp F24>;
+
+            label = "MKP_EXIT_AML";
         };
 
         cmd_click: cmd_click {
-        compatible = "zmk,behavior-macro";
-        #binding-cells = <0>;
-        bindings =
-            /* 押す側 */
-            <&macro_press>,
-            <&kp LEFT_GUI>,        /* Cmd 押下 */
-            <&macro_wait_time 25>, /* USB:15–20 / BLE:25–40 に調整 */
-            <&mkp LCLK>,           /* クリック押下（Cmd+Click/ドラッグ可） */
-    
-            <&macro_pause_for_release>, /* 離すまで保持 */
-    
-            /* 離す側（順序と待ち） */
-            <&macro_release>,
-            <&macro_wait_time 5>,  /* 同フレーム解放の合成回避 */
-            <&mkp LCLK>,           /* クリック離す */
-            <&macro_wait_time 15>,
-            <&kp LEFT_GUI>,        /* Cmd 離す */
-            <&macro_wait_time 300>,
-            <&macro_tap>, <&kp F24>;
-        label = "CMD_CLICK";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LEFT_GUI>,
+                <&macro_wait_time 25>,
+                <&mkp LCLK>,
+                <&macro_pause_for_release>,
+                <&macro_release>,
+                <&macro_wait_time 5>,
+                <&mkp LCLK>,
+                <&macro_wait_time 15>,
+                <&kp LEFT_GUI>,
+                <&macro_wait_time 300>,
+                <&macro_tap>,
+                <&kp F24>;
+
+            label = "CMD_CLICK";
         };
     };
 };
@@ -153,11 +153,11 @@
         mouse_layer {
             display-name = "Mouse";
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans          &trans  &trans  &trans  &trans                                      &trans  &trans                                  &trans
+&trans  &trans  &trans      &trans              &trans              &trans            &trans  &trans  &trans  &trans            &trans  &trans              &trans              &trans      &trans  &trans
+&trans  &trans  &trans      &trans              &trans              &trans            &trans  &trans  &trans  &trans            &trans  &trans              &trans              &trans      &trans  &trans
+&trans  &trans  &cmd_click  &mkp_exit_AML RCLK  &mkp_exit_AML LCLK  &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &mkp_exit_AML LCLK  &mkp_exit_AML RCLK  &cmd_click  &trans  &trans
+&trans  &trans  &trans      &trans              &trans              &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &trans              &trans              &trans      &trans  &trans
+&trans  &trans              &trans              &trans              &trans  &trans                                      &trans  &trans                                                              &trans
             >;
         };
 
