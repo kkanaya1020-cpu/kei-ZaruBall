@@ -78,6 +78,15 @@
 
             display-name = "SandS";
         };
+
+        td_click: td_click {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&mkp_exit_AML LCLK>, <&mkp_dblclick_exit_AML LCLK>;
+
+            label = "TD_CLICK";
+        };
     };
 };
 
@@ -114,24 +123,19 @@
         mkp_dblclick_exit_AML: mkp_dblclick_exit_AML {
             compatible = "zmk,behavior-macro-one-param";
             #binding-cells = <1>;
+
             /* 想定：MOUSEレイヤー=1。必要なら &tog の引数はMOUSEに置換可 */
+
             bindings =
-                /* 1発目（タップ） */
                 <&macro_tap>,
                 <&macro_param_1to1 &mkp MACRO_PLACEHOLDER>,
-        
-                /* クリック間の“ちょい待ち”（BLEなら35–50ms推奨） */
                 <&macro_wait_time 40>,
-        
-                /* 2発目（タップ） */
                 <&macro_tap>,
                 <&macro_param_1to1 &mkp MACRO_PLACEHOLDER>,
-        
-                /* ダブクリ完了後、少し間を取ってからレイヤーOFF */
-                /* → OSのダブルクリック判定が落ち着く余裕を持たせる */
                 <&macro_wait_time 120>,
-                <&macro_tap>, <&tog 1>;
-        
+                <&macro_tap>,
+                <&tog 1>;
+
             label = "MKP_DBLCLICK_EXIT_AML";
         };
 
@@ -177,11 +181,11 @@
         mouse_layer {
             display-name = "Mouse";
             bindings = <
-&trans  &trans  &trans      &trans              &trans              &trans            &trans  &trans  &trans  &trans            &trans  &trans              &trans              &trans      &trans  &trans
-&trans  &trans  &trans      &trans              &mkp LCLK           &trans            &trans  &trans  &trans  &trans            &trans  &mkp LCLK           &trans              &trans      &trans  &trans
-&trans  &trans  &cmd_click  &mkp_exit_AML RCLK  &mkp_exit_AML LCLK  &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &mkp_exit_AML LCLK  &mkp_exit_AML RCLK  &cmd_click  &trans  &trans
-&trans  &trans  &trans      &trans              &trans              &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &trans              &trans              &trans      &trans  &trans
-&trans  &trans              &trans              &trans              &trans  &trans                                      &trans  &trans                                                              &trans
+&trans  &trans  &trans      &trans              &trans     &trans            &trans  &trans  &trans  &trans            &trans  &trans     &trans              &trans      &trans  &trans
+&trans  &trans  &trans      &trans              &mkp LCLK  &trans            &trans  &trans  &trans  &trans            &trans  &mkp LCLK  &trans              &trans      &trans  &trans
+&trans  &trans  &cmd_click  &mkp_exit_AML RCLK  &td_click  &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &td_click  &mkp_exit_AML RCLK  &cmd_click  &trans  &trans
+&trans  &trans  &trans      &trans              &trans     &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &trans     &trans              &trans      &trans  &trans
+&trans  &trans              &trans              &trans     &trans  &trans                                      &trans  &trans                                                     &trans
             >;
         };
 
