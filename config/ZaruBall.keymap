@@ -106,7 +106,7 @@
                 <&macro_param_1to1 &mkp MACRO_PLACEHOLDER>,
                 <&macro_wait_time 300>,
                 <&macro_tap>,
-                <&kp F24>;
+                <&tog 1>;
 
             label = "MKP_EXIT_AML";
         };
@@ -127,7 +127,7 @@
                 <&kp LEFT_GUI>,
                 <&macro_wait_time 300>,
                 <&macro_tap>,
-                <&kp F24>;
+                <&tog 1>;
 
             label = "CMD_CLICK";
         };
@@ -154,7 +154,7 @@
             display-name = "Mouse";
             bindings = <
 &trans  &trans  &trans      &trans              &trans              &trans            &trans  &trans  &trans  &trans            &trans  &trans              &trans              &trans      &trans  &trans
-&trans  &trans  &trans      &trans              &trans              &trans            &trans  &trans  &trans  &trans            &trans  &trans              &trans              &trans      &trans  &trans
+&trans  &trans  &trans      &trans              &mkp LCLK           &trans            &trans  &trans  &trans  &trans            &trans  &mkp LCLK           &trans              &trans      &trans  &trans
 &trans  &trans  &cmd_click  &mkp_exit_AML RCLK  &mkp_exit_AML LCLK  &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &mkp_exit_AML LCLK  &mkp_exit_AML RCLK  &cmd_click  &trans  &trans
 &trans  &trans  &trans      &trans              &trans              &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &trans              &trans              &trans      &trans  &trans
 &trans  &trans              &trans              &trans              &trans  &trans                                      &trans  &trans                                                              &trans
