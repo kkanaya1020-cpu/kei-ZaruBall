@@ -104,11 +104,35 @@
                 <&macro_pause_for_release>,
                 <&macro_release>,
                 <&macro_param_1to1 &mkp MACRO_PLACEHOLDER>,
-                <&macro_wait_time 300>,
+                <&macro_wait_time 120>,
                 <&macro_tap>,
                 <&tog 1>;
 
             label = "MKP_EXIT_AML";
+        };
+
+        mkp_dblclick_exit_AML: mkp_dblclick_exit_AML {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            /* 想定：MOUSEレイヤー=1。必要なら &tog の引数はMOUSEに置換可 */
+            bindings =
+                /* 1発目（タップ） */
+                <&macro_tap>,
+                <&macro_param_1to1 &mkp MACRO_PLACEHOLDER>,
+        
+                /* クリック間の“ちょい待ち”（BLEなら35–50ms推奨） */
+                <&macro_wait_time 40>,
+        
+                /* 2発目（タップ） */
+                <&macro_tap>,
+                <&macro_param_1to1 &mkp MACRO_PLACEHOLDER>,
+        
+                /* ダブクリ完了後、少し間を取ってからレイヤーOFF */
+                /* → OSのダブルクリック判定が落ち着く余裕を持たせる */
+                <&macro_wait_time 120>,
+                <&macro_tap>, <&tog 1>;
+        
+            label = "MKP_DBLCLICK_EXIT_AML";
         };
 
         cmd_click: cmd_click {
@@ -125,7 +149,7 @@
                 <&mkp LCLK>,
                 <&macro_wait_time 15>,
                 <&kp LEFT_GUI>,
-                <&macro_wait_time 300>,
+                <&macro_wait_time 120>,
                 <&macro_tap>,
                 <&tog 1>;
 
