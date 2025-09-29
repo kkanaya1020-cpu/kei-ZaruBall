@@ -78,17 +78,6 @@
 
             display-name = "SandS";
         };
-
-        /* ===== 追加: “押下直後に必ずBASEへ(to0)” 版の Behaviors（最初の6種） ===== */
-        /* A) tap=LANG1 / hold=RIGHT_GUI */
-        /* B) tap=LANG2 / hold=LEFT_ALT */
-        /* C) tap=LEFT_GUI + C / hold=LEFT_CONTROL */
-        /* D) tap=RIGHT_GUI + V / hold=RIGHT_CONTROL */
-        /* LT(自作) その1: tap=[ , hold中は Layer 6 */
-        /* LT(自作) その2: tap=] , hold中は Layer 5 */
-        /* ===== 追加: “押下直後に必ずBASEへ(to0)” 版の Behaviors（LT 2種：今回追加） ===== */
-        /* LT相当：tap=Left GUI+V / hold中だけ Layer 3 */
-        /* LT相当：tap=Left Alt+Up / hold中だけ Layer 2 */
     };
 };
 
@@ -104,58 +93,44 @@
             label = "TO_layer_0";
         };
 
-        // When LCLK pressed, exit AML (after 250ms cause by sticky layer
+        // When LCLK pressed, exit AML after 250ms
 
         mkp_exit_AML: mkp_exit_AML {
-            compatible = "zmk,behavior-macro-one-param";
-            #binding-cells = <1>;
-            bindings =
-                <&macro_press>,
-                <&macro_param_1to1 &mkp MACRO_PLACEHOLDER>,
-                <&macro_pause_for_release>,
-                <&macro_release>,
-                <&macro_param_1to1 &mkp MACRO_PLACEHOLDER>,
-                <&macro_tap>,
-                <&sl MOUSE>;
-
-            label = "MKP_EXIT_AML";
+        compatible = "zmk,behavior-macro-one-param";
+        #binding-cells = <1>;
+        bindings =
+            <&macro_press>,
+            <&macro_param_1to1 &mkp MACRO_PLACEHOLDER>, /* クリック押下 */
+            <&macro_pause_for_release>,                 /* ドラッグ対応：離すまで保持 */
+            <&macro_release>,
+            <&macro_param_1to1 &mkp MACRO_PLACEHOLDER>, /* クリック離す */
+            <&macro_wait_time 300>,
+            <&macro_tap>, <&kp F24>;
+        label = "MKP_EXIT_AML";
         };
 
         cmd_click: cmd_click {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings =
-                <&macro_press>,
-                <&kp LEFT_GUI>,
-                <&macro_wait_time 25>,
-                <&mkp LCLK>,
-                <&macro_pause_for_release>,
-                <&macro_release>,
-                <&macro_wait_time 5>,
-                <&mkp LCLK>,
-                <&macro_wait_time 15>,
-                <&kp LEFT_GUI>,
-                <&macro_tap>,
-                <&sl MOUSE>;
-
-            label = "CMD_CLICK";
+        compatible = "zmk,behavior-macro";
+        #binding-cells = <0>;
+        bindings =
+            /* 押す側 */
+            <&macro_press>,
+            <&kp LEFT_GUI>,        /* Cmd 押下 */
+            <&macro_wait_time 25>, /* USB:15–20 / BLE:25–40 に調整 */
+            <&mkp LCLK>,           /* クリック押下（Cmd+Click/ドラッグ可） */
+    
+            <&macro_pause_for_release>, /* 離すまで保持 */
+    
+            /* 離す側（順序と待ち） */
+            <&macro_release>,
+            <&macro_wait_time 5>,  /* 同フレーム解放の合成回避 */
+            <&mkp LCLK>,           /* クリック離す */
+            <&macro_wait_time 15>,
+            <&kp LEFT_GUI>,        /* Cmd 離す */
+            <&macro_wait_time 300>,
+            <&macro_tap>, <&kp F24>;
+        label = "CMD_CLICK";
         };
-
-        /* ===== 追加: “押下直後に必ずBASEへ(to0)” 版の Macros（最初の6種の部品） ===== */
-        /* ---- HOLD 側（修飾押しっぱなし） ---- */
-        /* ▼▼▼ ここから Hold 側の &to 0 を除去（レイヤーを動かさない） ▼▼▼ */
-        /* ---- TAP 側（単発動作） ---- */
-        /* tap: Left GUI + C */
-        /* tap: Right GUI + V */
-        /* ---- LT 用：hold中にレイヤーを維持（&mo を押しっぱなし） ---- */
-        /* ▼▼▼ ここも Hold 側から &to 0 を除去 ▼▼▼ */
-        /* ===== 追加: “押下直後に必ずBASEへ(to0)” 版の Macros（LT 2種：今回追加の部品） ===== */
-        /* ▼▼▼ ここも Hold 側から &to 0 を除去 ▼▼▼ */
-        /* hold: Layer 3 を押しっぱなし（離したら解除） */
-        /* tap: Left GUI + V（BASEに戻してから送出） */
-        /* hold: Layer 2 を押しっぱなし（離したら解除） */
-        /* tap: Left Alt + Up（BASEに戻してから送出） */
-        /* ▼▼▼ ここも Hold 側から &to 0 を除去 ▼▼▼ */
     };
 };
 
