@@ -73,7 +73,7 @@
         #input-processor-cells = <2>;
 
         /* クリック系の“位置”は即解除させない（仮の番号） */
-        excluded-positions = <34 35 36 45 46 47>;
+        excluded-positions = <20 27 34 35 36 45 46 47>;
     };
 };
 
