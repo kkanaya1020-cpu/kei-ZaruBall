@@ -4,39 +4,40 @@
 
 &xiao_serial { status = "disabled"; };
 
-// matrix transformでのピン数オフセット
-&default_transform { // Offset of 7 because the left side has 2 columns
+/* matrix transformでのピン数オフセット */
+&default_transform { /* Offset of 7 because the left side has 2 columns */
     col-offset = <12>;
     row-offset = <12>;
 };
 
 &kscan0 {
-    gpios
-        = <&xiao_d 0 GPIO_ACTIVE_HIGH>//M1
-        , <&xiao_d 1 GPIO_ACTIVE_HIGH>//M2
-        , <&xiao_d 2 GPIO_ACTIVE_HIGH>//M3
-        , <&xiao_d 3 GPIO_ACTIVE_HIGH>//M4
-        , <&xiao_d 4 GPIO_ACTIVE_HIGH>//M5
-        , <&xiao_d 5 GPIO_ACTIVE_HIGH>//M6
-        ;
-    interrupt-gpios = <&xiao_d 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;//IGPIO
+    /* マトリクス行列 */
+    gpios = <&xiao_d 0 GPIO_ACTIVE_HIGH>, /* M1 */
+            <&xiao_d 1 GPIO_ACTIVE_HIGH>, /* M2 */
+            <&xiao_d 2 GPIO_ACTIVE_HIGH>, /* M3 */
+            <&xiao_d 3 GPIO_ACTIVE_HIGH>, /* M4 */
+            <&xiao_d 4 GPIO_ACTIVE_HIGH>, /* M5 */
+            <&xiao_d 5 GPIO_ACTIVE_HIGH>; /* M6 */
+
+    /* 割り込みピン */
+    interrupt-gpios = <&xiao_d 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>; /* IGPIO */
 };
 
-// pmw-3610-driverを動かすコード（古いブランチ:pointers-move-scroll）----------------------------------
+/* pmw-3610-driver（古いブランチ:pointers-move-scroll）------------------------ */
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 1, 15)>, // SCLK
-                <NRF_PSEL(SPIM_MOSI, 1, 13)>, // SDIO
-                <NRF_PSEL(SPIM_MISO, 1, 13)>; // SDIO
+            psels = <NRF_PSEL(SPIM_SCK, 1, 15)>, /* SCLK */
+                    <NRF_PSEL(SPIM_MOSI, 1, 13)>, /* SDIO */
+                    <NRF_PSEL(SPIM_MISO, 1, 13)>; /* SDIO */
         };
     };
 
     spi0_sleep: spi0_sleep {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 1, 15)>,
-                <NRF_PSEL(SPIM_MOSI, 1, 13)>,
-                <NRF_PSEL(SPIM_MISO, 1, 13)>;
+                    <NRF_PSEL(SPIM_MOSI, 1, 13)>,
+                    <NRF_PSEL(SPIM_MISO, 1, 13)>;
             low-power-enable;
         };
     };
@@ -48,43 +49,45 @@
     pinctrl-0 = <&spi0_default>;
     pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
-    cs-gpios = <&gpio1 14 GPIO_ACTIVE_LOW>; // CS
+    cs-gpios = <&gpio1 14 GPIO_ACTIVE_LOW>; /* CS */
 
     trackball: trackball@0 {
         status = "okay";
         compatible = "pixart,pmw3610";
         reg = <0>;
         spi-max-frequency = <2000000>;
-        irq-gpios = <&gpio1 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; // MOTION
+        irq-gpios = <&gpio1 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* MOTION */
 
         /*   optional features   */
-        // snipe-layers = <1 2>;
-        // automouse-layer = <1>;
-        // force-awake;            // 入力の“抜け”を感じるなら有効化（消費↑）
-        // force-awake-4ms-mode;   // 有線等で高頻度にしたい場合のみ
+        /* snipe-layers = <1 2>; */
+        /* automouse-layer = <1>; */ /* ← 使わないので残してもコメントのまま */
+        /* force-awake; */            /* 入力の“抜け”を感じるなら有効化（消費↑） */
+        /* force-awake-4ms-mode; */   /* 有線等で高頻度にしたい場合のみ */
     };
 };
 
 / {
-    /* --- Auto Mouse Layer timers --- */
-    /* 長い保持用：キーを押したら即解除（＝excluded-positionsは設定しない）*/
+    /* --- Auto Mouse Layer timer: 30s (テンプレイヤーは1つだけ) --- */
     zip_temp_layer_long: zip_temp_layer_long {
         compatible = "zmk,input-processor-temp-layer";
         #input-processor-cells = <2>;
-        /* no excluded-positions */
+
+        /* クリック系の“位置”は即解除させない（仮の番号） */
+        excluded-positions = <34 35 36 45 46 47>;
     };
 };
 
-
-/ {
+ / {
   trackball_listener {
     compatible = "zmk,input-listener";
     device = <&trackball>;
+
+    /* 30s のみ（250ms はマクロ側で F24 タップして解除） */
     input-processors = <
         &zip_temp_layer_long  1 30000
     >;
 
-    // --- 縦スクロールモード：X だけを縦ホイールに変換（右=下／左=上）, Y は無効 ---
+    /* --- 縦スクロールモード：Xだけ縦ホイール（右=下／左=上）, Y 無効 --- */
     scroller_v {
         layers = <5>;
         input-processors = <
@@ -96,18 +99,18 @@
         >;
     };
 
-
-    // --- 横スクロールモード：X を横ホイールに変換, Y は無効 ---
-    scroller_h { 
-        layers = <6>; 
-        input-processors = < &zip_y_scaler 0 1 // Yは未使用（ダミー） 
-        &zip_x_scaler 1 14 
-        &zip_xy_to_scroll_mapper 
-        &zip_scroll_transform (INPUT_TRANSFORM_X_INVERT) // ← 横方向が逆ならこの1行を有効化 
-        &zip_scroll_scaler 1 12 
-        >; 
+    /* --- 横スクロールモード：X を横ホイール, Y 無効 --- */
+    scroller_h {
+        layers = <6>;
+        /* Y は未使用（ダミー） */
+        input-processors = <
+            &zip_y_scaler 0 1
+            &zip_x_scaler 1 14
+            &zip_xy_to_scroll_mapper
+            /* 横方向が逆なら次を有効化（今は有効化済みの例） */
+            &zip_scroll_transform (INPUT_TRANSFORM_X_INVERT)
+            &zip_scroll_scaler 1 12
+        >;
     };
-
   };
 };
-
