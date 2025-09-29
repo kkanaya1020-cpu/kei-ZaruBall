@@ -74,6 +74,7 @@
 
         /* クリック系の“位置”は即解除させない（仮の番号） */
         excluded-positions = <20 27 34 35 36 45 46 47>;
+        require-prior-idle-ms = <250>;
     };
 };
 
