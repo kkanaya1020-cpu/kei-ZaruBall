@@ -170,11 +170,11 @@
             display-name = "Base";
             sensor-bindings = <&inc_dec_kp C_VOLUME_DOWN C_VOLUME_UP>;
             bindings = <
-&kp ESC                        &kp N1      &kp N2  &kp N3        &kp N4       &kp N5                                                       &kp KP_N7     &kp KP_N8  &kp KP_N9   &kp KP_DIVIDE                      &kp NUMBER_6         &kp N7  &kp N8     &kp N9   &kp N0    &kp EQUAL
-&kp TAB                        &kp Q       &kp W   &kp E         &kp R        &kp T                                                        &kp KP_N4     &kp KP_N5  &kp KP_N6   &kp KP_MULTIPLY                    &kp Y                &kp U   &kp I      &kp O    &kp P     &kp MINUS
-&kp LEFT_ARROW                 &kp A       &kp S   &kp D         &kp F        &kp G               &mt LG(LS(NUMBER_4)) LG(LS(NUMBER_5))    &kp KP_N1     &kp KP_N2  &kp KP_N3   &kp KP_MINUS       &kp UP_ARROW    &kp H                &kp J   &kp K      &kp L    &kp SEMI  &kp RIGHT_ARROW
-&mt LEFT_SHIFT LG(LEFT_ARROW)  &kp Z       &kp X   &kp C         &kp V        &kp B               &lt 2 LA(UP_ARROW)                       &kp KP_ENTER  &kp KP_N0  &kp KP_DOT  &kp KP_PLUS        &kp DOWN_ARROW  &kp N                &kp M   &kp COMMA  &kp DOT  &kp FSLH  &mt RIGHT_SHIFT RG(RIGHT_ARROW)
-&mt LEFT_CONTROL LG(C)         &kp C_MUTE          &lt 6 C_MUTE  &lt 5 SPACE  &mt LEFT_ALT LANG2  &kp BACKSPACE                                                                                    &kp ENTER       &mt RIGHT_GUI LANG1                                        &lt 3 RG(V)
+&kp ESC           &kp N1      &kp N2  &kp N3      &kp N4         &kp N5                                                       &kp KP_N7     &kp KP_N8  &kp KP_N9   &kp KP_DIVIDE                             &kp NUMBER_6         &kp N7  &kp N8     &kp N9   &kp N0    &kp ESCAPE
+&kp TAB           &kp Q       &kp W   &kp E       &kp R          &kp T                                                        &kp KP_N4     &kp KP_N5  &kp KP_N6   &kp KP_MULTIPLY                           &kp Y                &kp U   &kp I      &kp O    &kp P     &kp EQUAL
+&kp LEFT_CONTROL  &kp A       &kp S   &kp D       &kp F          &kp G               &mt LG(LS(NUMBER_4)) LG(LS(NUMBER_5))    &kp KP_N1     &kp KP_N2  &kp KP_N3   &kp KP_MINUS       &kp UP_ARROW           &kp H                &kp J   &kp K      &kp L    &kp SEMI  &kp MINUS
+&kp LEFT_ARROW    &kp Z       &kp X   &lt 6 C     &lt 5 V        &kp B               &kp LA(UP_ARROW)                         &kp KP_ENTER  &kp KP_N0  &kp KP_DOT  &kp KP_PLUS        &kp DOWN_ARROW         &kp N                &kp M   &kp COMMA  &kp DOT  &kp FSLH  &kp RIGHT_ARROW
+&lt 2 LG(C)       &kp C_MUTE          &kp C_MUTE  &kp BACKSPACE  &mt LEFT_ALT LANG2  &mt LEFT_SHIFT SPACE                                                                             &mt RIGHT_SHIFT ENTER  &mt RIGHT_GUI LANG1                                        &lt 3 RG(V)
             >;
         };
 
@@ -197,7 +197,7 @@
 &trans  &none           &none         &none           &none            &none            &trans  &trans  &trans  &trans                          &none         &kp F1        &kp F2        &kp F3        &kp F4        &kp RC(GRAVE)
 &trans  &kp LEFT_ARROW  &kp UP_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &none  &trans    &trans  &trans  &trans  &trans    &kp RG(RS(NUMBER_5))  &none         &kp F5        &kp F6        &kp F7        &kp F8        &trans
 &trans  &none           &none         &none           &none            &none  &none     &trans  &trans  &trans  &trans    &kp RG(RS(NUMBER_4))  &none         &kp F9        &kp F10       &kp F11       &kp F12       &studio_unlock
-&trans  &none                         &trans          &none            &none  &none                                       &none                 &trans                                                                &trans
+&trans  &none                         &trans          &none            &none  &none                                       &kp RG(ENTER)         &trans                                                                &trans
             >;
         };
 
@@ -228,11 +228,11 @@
         scr_v_layer {
             display-name = "SCR_V";
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans                &trans  &trans  &trans  &trans                   &trans  &trans  &trans             &kp RS(LEFT_BRACKET)  &kp RS(RIGHT_BRACKET)  &trans
-&trans  &trans  &trans  &trans  &trans  &trans                &trans  &trans  &trans  &trans                   &trans  &trans  &kp RS(BACKSLASH)  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp RS(GRAVE)
-&trans  &trans  &trans  &trans  &trans  &trans  &trans        &trans  &trans  &trans  &trans    &trans         &trans  &trans  &trans             &trans                &kp GRAVE              &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans        &trans  &trans  &trans  &trans    &trans         &trans  &trans  &kp SQT            &kp RS(SQT)           &kp BACKSLASH          &trans
-&trans  &trans          &trans  &trans  &trans  &kp DELETE                                      &kp RG(ENTER)  &trans                                                                          &trans
+&trans  &trans  &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans                   &trans  &trans  &trans             &kp RS(LEFT_BRACKET)  &kp RS(RIGHT_BRACKET)  &trans
+&trans  &trans  &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans                   &trans  &trans  &kp RS(BACKSLASH)  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &none
+&trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans    &trans         &trans  &trans  &trans             &trans                &kp GRAVE              &kp RS(GRAVE)
+&trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans    &trans         &trans  &trans  &kp SQT            &kp RS(SQT)           &kp BACKSLASH          &trans
+&trans  &trans          &trans  &trans  &trans  &none                                       &kp RG(ENTER)  &trans                                                                          &trans
             >;
 
             sensor-bindings = <&inc_dec_kp F14 F15>;
@@ -241,11 +241,11 @@
         scr_h_layer {
             display-name = "SCR_H";
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans                &trans  &trans  &trans  &trans                   &trans  &trans  &trans             &kp RS(LEFT_BRACKET)  &kp RS(RIGHT_BRACKET)  &trans
-&trans  &trans  &trans  &trans  &trans  &trans                &trans  &trans  &trans  &trans                   &trans  &trans  &kp RS(BACKSLASH)  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp RS(GRAVE)
-&trans  &trans  &trans  &trans  &trans  &trans  &trans        &trans  &trans  &trans  &trans    &trans         &trans  &trans  &trans             &trans                &kp GRAVE              &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans        &trans  &trans  &trans  &trans    &trans         &trans  &trans  &kp SQT            &kp RS(SQT)           &kp BACKSLASH          &trans
-&trans  &trans          &trans  &trans  &trans  &kp DELETE                                      &kp RG(ENTER)  &trans                                                                          &trans
+&trans  &trans  &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans                   &trans  &trans  &trans             &kp RS(LEFT_BRACKET)  &kp RS(RIGHT_BRACKET)  &trans
+&trans  &trans  &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans                   &trans  &trans  &kp RS(BACKSLASH)  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &none
+&trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans    &trans         &trans  &trans  &trans             &trans                &kp GRAVE              &kp RS(GRAVE)
+&trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans    &trans         &trans  &trans  &kp SQT            &kp RS(SQT)           &kp BACKSLASH          &trans
+&trans  &trans          &trans  &trans  &trans  &none                                       &kp RG(ENTER)  &trans                                                                          &trans
             >;
         };
 
