@@ -108,7 +108,7 @@
             #binding-cells = <0>;
             bindings = <&mt RIGHT_GUI LANG1>, <&kp RG(RIGHT_ARROW)>;
 
-            tapping-term-ms = <200>;
+            tapping-term-ms = <125>;
         };
 
         td_lang2: td_lang2 {
@@ -117,7 +117,7 @@
             #binding-cells = <0>;
             bindings = <&mt LEFT_ALT LANG2>, <&kp RG(LEFT_ARROW)>;
 
-            tapping-term-ms = <200>;
+            tapping-term-ms = <125>;
         };
 
         td_space: td_space {
@@ -125,6 +125,8 @@
             label = "TD_SPACE";
             #binding-cells = <0>;
             bindings = <&lt 5 SPACE>, <&kp SPACE>;
+
+            tapping-term-ms = <125>;
         };
 
         td_bs: td_bs {
@@ -132,6 +134,8 @@
             label = "TD_BS";
             #binding-cells = <0>;
             bindings = <&mt LEFT_SHIFT BACKSPACE>, <&kp BACKSPACE>;
+
+            tapping-term-ms = <125>;
         };
 
         td_enter: td_enter {
@@ -139,6 +143,8 @@
             label = "TD_ENTER";
             #binding-cells = <0>;
             bindings = <&mt RIGHT_SHIFT ENTER>, <&kp ENTER>;
+
+            tapping-term-ms = <125>;
         };
 
         td_app: td_app {
@@ -146,6 +152,8 @@
             label = "TD_APP";
             #binding-cells = <0>;
             bindings = <&lt 6 LA(S)>, <&kp LA(N)>;
+
+            tapping-term-ms = <125>;
         };
 
         td_mute: td_mute {
