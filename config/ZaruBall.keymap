@@ -245,11 +245,11 @@
             display-name = "Base";
             sensor-bindings = <&inc_dec_kp LA(LEFT_ARROW) LA(RIGHT_ARROW)>;
             bindings = <
-&kp ESC           &kp N1      &kp N2  &kp N3   &kp N4     &kp N5                   &kp KP_N7     &kp KP_N8  &kp KP_N9   &kp KP_DIVIDE                      &kp NUMBER_6  &kp N7  &kp N8     &kp N9   &kp N0    &td_mute
-&kp TAB           &kp Q       &kp W   &kp E    &kp R      &kp T                    &kp KP_N4     &kp KP_N5  &kp KP_N6   &kp KP_MULTIPLY                    &kp Y         &kp U   &kp I      &kp O    &kp P     &kp EQUAL
-&kp LEFT_CONTROL  &kp A       &kp S   &kp D    &kp F      &kp G      &td_sh        &kp KP_N1     &kp KP_N2  &kp KP_N3   &kp KP_MINUS       &kp UP_ARROW    &kp H         &kp J   &kp K      &kp L    &kp SEMI  &kp MINUS
-&kp LEFT_ARROW    &kp Z       &kp X   &kp C    &kp V      &kp B      &td_window    &kp KP_ENTER  &kp KP_N0  &kp KP_DOT  &kp KP_PLUS        &kp DOWN_ARROW  &kp N         &kp M   &kp COMMA  &kp DOT  &kp FSLH  &kp RIGHT_ARROW
-&lt 2 LG(C)       &kp C_MUTE          &td_app  &td_space  &td_lang2  &td_bs                                                                &td_enter       &td_lang1                                           &lt 3 RG(V)
+&kp ESC           &kp N1      &kp N2  &kp N3       &kp N4       &kp N5                                          &kp KP_N7     &kp KP_N8  &kp KP_N9   &kp KP_DIVIDE                             &kp NUMBER_6         &kp N7  &kp N8     &kp N9   &kp N0    &lt 4 C_MUTE
+&kp TAB           &kp Q       &kp W   &kp E        &kp R        &kp T                                           &kp KP_N4     &kp KP_N5  &kp KP_N6   &kp KP_MULTIPLY                           &kp Y                &kp U   &kp I      &kp O    &kp P     &kp EQUAL
+&kp LEFT_CONTROL  &kp A       &kp S   &kp D        &kp F        &kp G               &td_sh                      &kp KP_N1     &kp KP_N2  &kp KP_N3   &kp KP_MINUS       &kp UP_ARROW           &kp H                &kp J   &kp K      &kp L    &kp SEMI  &kp MINUS
+&kp LEFT_ARROW    &kp Z       &kp X   &kp C        &kp V        &kp B               &td_window                  &kp KP_ENTER  &kp KP_N0  &kp KP_DOT  &kp KP_PLUS        &kp DOWN_ARROW         &kp N                &kp M   &kp COMMA  &kp DOT  &kp FSLH  &kp RIGHT_ARROW
+&lt 2 LG(C)       &kp C_MUTE          &lt 6 LA(S)  &lt 5 SPACE  &mt LEFT_ALT LANG2  &mt LEFT_SHIFT BACKSPACE                                                            &mt RIGHT_SHIFT ENTER  &mt RIGHT_GUI LANG1                                        &lt 3 RG(V)
             >;
         };
 
@@ -268,23 +268,23 @@
             display-name = "Fn";
             sensor-bindings = <&inc_dec_kp F14 F15>;
             bindings = <
-&trans  &none           &none         &none           &none            &none           &trans  &trans  &trans  &trans                   &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &bt BT_CLR_ALL
-&trans  &none           &none         &none           &none            &none           &trans  &trans  &trans  &trans                   &none         &kp F1        &kp F2        &kp F3        &kp F4        &kp RC(GRAVE)
-&trans  &kp LEFT_ARROW  &kp UP_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &none  &none    &trans  &trans  &trans  &trans    &none          &none         &kp F5        &kp F6        &kp F7        &kp F8        &trans
-&trans  &none           &none         &none           &none            &none  &none    &trans  &trans  &trans  &trans    &none          &none         &kp F9        &kp F10       &kp F11       &kp F12       &studio_unlock
-&trans  &none                         &none           &none            &none  &none                                      &kp RG(ENTER)  &trans                                                                &trans
+&trans  &none           &none         &none           &none            &none                                &trans  &trans  &trans  &trans               &bt BT_SEL 0         &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &bt BT_CLR_ALL
+&trans  &none           &none         &none           &none            &none                                &trans  &trans  &trans  &trans               &none                &kp F1        &kp F2        &kp F3        &kp F4        &kp RC(GRAVE)
+&trans  &kp LEFT_ARROW  &kp UP_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &none               &none            &trans  &trans  &trans  &trans    &none      &none                &kp F5        &kp F6        &kp F7        &kp F8        &trans
+&trans  &none           &none         &none           &none            &none               &none            &trans  &trans  &trans  &trans    &none      &none                &kp F9        &kp F10       &kp F11       &kp F12       &studio_unlock
+&trans  &none                         &none           &none            &kp LG(LEFT_ARROW)  &kp BACKSPACE                                      &kp ENTER  &kp RG(RIGHT_ARROW)                                                          &trans
             >;
         };
 
         raise_layer {
             display-name = "Raise";
-            sensor-bindings = <&inc_dec_kp C_VOLUME_DOWN C_VOLUME_UP>;
+            sensor-bindings = <&inc_dec_kp LC(LEFT_ARROW) LC(RIGHT_ARROW)>;
             bindings = <
-&trans  &kp LG(LEFT_ARROW)      &kp LG(UP_ARROW)      &kp LG(DOWN_ARROW)      &kp LG(RIGHT_ARROW)      &none                                   &trans  &trans  &trans  &trans            &none                &none      &none      &none  &none  &none
-&trans  &kp LS(LEFT)            &kp LS(UP_ARROW)      &kp LS(DOWN_ARROW)      &kp LS(RIGHT)            &none                                   &trans  &trans  &trans  &trans            &none                &none      &none      &none  &none  &none
-&trans  &kp LEFT_ARROW          &kp UP_ARROW          &kp DOWN_ARROW          &kp RIGHT_ARROW          &none               &none               &trans  &trans  &trans  &trans    &none   &none                &mkp LCLK  &mkp RCLK  &none  &none  &none
-&trans  &kp LS(LG(LEFT_ARROW))  &kp LS(LG(UP_ARROW))  &kp LS(LG(DOWN_ARROW))  &kp LS(LG(RIGHT_ARROW))  &none               &kp RC(UP_ARROW)    &trans  &trans  &trans  &trans    &none   &none                &kp HOME   &kp END    &none  &none  &none
-&trans  &none                                         &trans                  &trans                   &kp LC(LEFT_ARROW)  &trans                                                &trans  &kp RC(RIGHT_ARROW)                                      &trans
+&trans  &kp LG(LEFT_ARROW)      &kp LG(UP_ARROW)      &kp LG(DOWN_ARROW)      &kp LG(RIGHT_ARROW)      &none                                   &trans  &trans  &trans  &trans               &none                &none      &none      &none  &none  &none
+&trans  &kp LS(LEFT)            &kp LS(UP_ARROW)      &kp LS(DOWN_ARROW)      &kp LS(RIGHT)            &none                                   &trans  &trans  &trans  &trans               &none                &none      &none      &none  &none  &none
+&trans  &kp LEFT_ARROW          &kp UP_ARROW          &kp DOWN_ARROW          &kp RIGHT_ARROW          &none               &none               &trans  &trans  &trans  &trans    &none      &none                &mkp LCLK  &mkp RCLK  &none  &none  &none
+&trans  &kp LS(LG(LEFT_ARROW))  &kp LS(LG(UP_ARROW))  &kp LS(LG(DOWN_ARROW))  &kp LS(LG(RIGHT_ARROW))  &none               &kp RC(UP_ARROW)    &trans  &trans  &trans  &trans    &none      &none                &kp HOME   &kp END    &none  &none  &none
+&trans  &none                                         &trans                  &trans                   &kp LG(LEFT_ARROW)  &kp BACKSPACE                                         &kp ENTER  &kp RG(RIGHT_ARROW)                                      &trans
             >;
         };
 
