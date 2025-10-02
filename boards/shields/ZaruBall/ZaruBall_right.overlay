@@ -66,8 +66,8 @@
     };
 };
 
-/ {
-    /* --- Auto Mouse Layer timer: 30s (テンプレイヤーは1つだけ) --- */
+/* ---- Auto Mouse Layer: 30s ---- */
+ / {
     zip_temp_layer_long: zip_temp_layer_long {
         compatible = "zmk,input-processor-temp-layer";
         #input-processor-cells = <2>;
@@ -83,38 +83,38 @@
     compatible = "zmk,input-listener";
     device = <&trackball>;
 
-    /* 30s のみ（250ms はマクロ側で解除） */
+    /* 30s のみ（250msはマクロ側で処理） */
     input-processors = <
         &zip_temp_layer_long  1 30000
     >;
 
-    /* --- 縦スクロールモード：Xだけ縦ホイール（右=下／左=上）, Y 無効 --- */
+    /* --- 縦スクロール：Xだけ縦ホイール（右=下／左=上）, Y 無効 --- */
     scroller_v {
         layers = <5>;
         input-processors = <
             &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP)
             &zip_x_scaler 0 1
-            /* 初動を出やすく：1/12 → 1/9（必要なら8〜10で微調整） */
+            /* 1/10 → 1/9 で初動をさらに出しやすく（わずかに軽く） */
             &zip_y_scaler 1 9
             &zip_xy_to_scroll_mapper
-            /* 出力を少し太めに：1/12 → 2/11（必要なら 1/11, 2/12 へ） */
-            &zip_scroll_scaler 2 11
+            /* 1/14 → 1/13 で全体の出力をほんの少し強めに */
+            &zip_scroll_scaler 1 13
         >;
     };
 
-    /* --- 横スクロールモード：X を横ホイール, Y 無効 --- */
+    /* --- 横スクロール：X を横ホイール, Y 無効 --- */
     scroller_h {
         layers = <6>;
         /* Y は未使用（ダミー） */
         input-processors = <
             &zip_y_scaler 0 1
-            /* 初動を出やすく：1/14 → 1/10（必要なら9〜11で微調整） */
-            &zip_x_scaler 1 10
+            /* 1/12 → 1/11 にして初動をわずかに軽く */
+            &zip_x_scaler 1 11
             &zip_xy_to_scroll_mapper
-            /* 方向は現状維持：反転は有効のまま */
+            /* 方向は現状維持：反転はそのまま */
             &zip_scroll_transform (INPUT_TRANSFORM_X_INVERT)
-            /* 出力を少し太めに：1/12 → 2/11 */
-            &zip_scroll_scaler 2 11
+            /* 1/14 → 1/13 にして出力をわずかに強く */
+            &zip_scroll_scaler 1 13
         >;
     };
   };
