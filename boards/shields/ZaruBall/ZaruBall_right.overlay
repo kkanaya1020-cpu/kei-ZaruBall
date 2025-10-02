@@ -95,10 +95,10 @@
             &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP)
             &zip_x_scaler 0 1
             /* 1/10 → 1/9 で初動をさらに出しやすく（わずかに軽く） */
-            &zip_y_scaler 1 9
+            &zip_y_scaler 1 8
             &zip_xy_to_scroll_mapper
             /* 1/14 → 1/13 で全体の出力をほんの少し強めに */
-            &zip_scroll_scaler 1 13
+            &zip_scroll_scaler 1 12
         >;
     };
 
@@ -109,12 +109,12 @@
         input-processors = <
             &zip_y_scaler 0 1
             /* 1/12 → 1/11 にして初動をわずかに軽く */
-            &zip_x_scaler 1 11
+            &zip_x_scaler 1 8
             &zip_xy_to_scroll_mapper
             /* 方向は現状維持：反転はそのまま */
             &zip_scroll_transform (INPUT_TRANSFORM_X_INVERT)
             /* 1/14 → 1/13 にして出力をわずかに強く */
-            &zip_scroll_scaler 1 13
+            &zip_scroll_scaler 1 12
         >;
     };
   };
