@@ -80,7 +80,7 @@
     };
 };
 
-/* ---- Auto Mouse Layer: 30s ---- */
+/* ---- Auto Mouse Layer: 60s ---- */
  / {
     zip_temp_layer_long: zip_temp_layer_long {
         compatible = "zmk,input-processor-temp-layer";
@@ -102,14 +102,29 @@
         &zip_temp_layer_long  1 60000
     >;
 
-    /* --- カーソル（マウスレイヤー）：
-     * マウスレイヤー時だけ縦横が逆になる症状を補正するため、
-     * カーソル側にも XY_SWAP を適用する。
-     */
+    /* ============================================================
+     * 目的:
+     * 1) マウスレイヤー時のカーソルが「軸は合ってるが反転」 → 反転補正を追加
+     * 2) スクロールレイヤーで「片軸制限が効かず両軸でスクロール」 → 片軸を確実に殺す
+     * 3) スクロールレイヤーに入ってもカーソルが動き続ける → スクロール中はカーソルを無効化
+     *
+     * 方針:
+     * - cursor_mouse は layers=<1> のみに限定し、さらに (X+Y) を反転させて直感に合わせる
+     * - scroller_v / scroller_h では「片軸 kill」を mapper の前で確実に入れる
+     * - スクロール中に cursor_mouse が同時発火しないよう、cursor_mouse を layers=<1> のみにし、
+     *   スクロールレイヤー(5/6)では cursor 用のパスを作らない
+     *   （＝スクロールレイヤーに入った瞬間、カーソルパスが消えてスクロールに切り替わる）
+     * ============================================================ */
+
+    /* --- カーソル（マウスレイヤー） --- */
     cursor_mouse {
-        layers = <1>; /* MOUSE layer */
+        layers = <1>; /* MOUSE layer only */
         input-processors = <
+            /* 縦横は既に合っているので XY_SWAP は維持 */
             &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP)
+
+            /* 反転しているので X/Y を反転（両方） */
+            &zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)
         >;
     };
 
@@ -117,29 +132,42 @@
     scroller_v {
         layers = <5>;
         input-processors = <
+            /* スクロールは今の方向が正しいので、現状維持 */
             &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP)
-            &zip_x_scaler 0 1
-            /* 初動/量が極小になっていたため、ここは現状維持（必要なら 1 1 へ） */
-            &zip_y_scaler 1 1
+
+            /* ★片軸 kill を “確実に”：
+             *   XY_SWAP 後の「Y成分」を 0 にして、X成分だけ残す想定。
+             *   → どの軸に動かしてもスクロールしてしまう症状を潰す。
+             */
+            &zip_y_scaler 0 1
+
+            /* 残す軸（X成分）のゲイン（必要なら後で調整） */
+            &zip_x_scaler 1 1
+
             &zip_xy_to_scroll_mapper
-            /* 量が小さすぎる原因が 1/8 * 1/12 (=1/96) なので、ここを強める */
-            &zip_scroll_scaler 1 8
+
+            /* スクロール量（現状よりやや強め。必要なら 1 6 / 1 4 などへ） */
+            &zip_scroll_scaler 1 12
         >;
     };
 
     /* --- 横スクロール：X を横ホイール, Y 無効 --- */
     scroller_h {
         layers = <6>;
-        /* Y は未使用（ダミー） */
         input-processors = <
+            /* まず片軸 kill を先に入れる（Yを0） */
             &zip_y_scaler 0 1
-            /* 初動/量が極小になっていたため、ここは現状維持（必要なら 1 1 へ） */
+
+            /* X成分を残す */
             &zip_x_scaler 1 1
+
             &zip_xy_to_scroll_mapper
+
             /* 方向は現状維持：反転はそのまま */
             &zip_scroll_transform (INPUT_TRANSFORM_X_INVERT)
-            /* 量が小さすぎる原因が 1/8 * 1/12 (=1/96) なので、ここを強める */
-            &zip_scroll_scaler 1 8
+
+            /* スクロール量（縦と同等に） */
+            &zip_scroll_scaler 1 12
         >;
     };
   };
