@@ -8,13 +8,12 @@
 &xiao_serial { status = "disabled"; };
 
 /* matrix transformでのピン数オフセット */
-&default_transform { /* Offset of 7 because the left side has 2 columns */
+&default_transform {
     col-offset = <12>;
     row-offset = <12>;
 };
 
 &kscan0 {
-    /* マトリクス行列 */
     gpios = <&xiao_d 0 GPIO_ACTIVE_HIGH>, /* M1 */
             <&xiao_d 1 GPIO_ACTIVE_HIGH>, /* M2 */
             <&xiao_d 2 GPIO_ACTIVE_HIGH>, /* M3 */
@@ -22,7 +21,6 @@
             <&xiao_d 4 GPIO_ACTIVE_HIGH>, /* M5 */
             <&xiao_d 5 GPIO_ACTIVE_HIGH>; /* M6 */
 
-    /* 割り込みピン */
     interrupt-gpios = <&xiao_d 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>; /* IGPIO */
 };
 
@@ -61,32 +59,28 @@
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio1 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* MOTION */
 
-        /* 体感（速度/スクロール量）を戻すための要 */
-        cpi = <1000>;
+        /* 体感（速度/スクロール量） */
+        cpi = <1200>;
 
-        /* ===== required (pixart,pmw3610.yml) =====
-         * zip_xy_transform / zip_xy_to_scroll_mapper 等が想定する
-         * 「相対移動（REL）」として出すため、REL系で揃える。
-         */
+        /* required (pixart,pmw3610.yml) */
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;
 
-        /*   optional features   */
+        /* optional features */
         /* snipe-layers = <1 2>; */
-        /* automouse-layer = <1>; */ /* ← 使わないので残してもコメントのまま */
-        /* force-awake; */            /* 入力の“抜け”を感じるなら有効化（消費↑） */
-        /* force-awake-4ms-mode; */   /* 有線等で高頻度にしたい場合のみ */
+        /* automouse-layer = <1>; */
+        /* force-awake; */
+        /* force-awake-4ms-mode; */
     };
 };
 
-/* ---- Auto Mouse Layer: 60s ---- */
+/* ---- Auto Mouse Layer ---- */
  / {
     zip_temp_layer_long: zip_temp_layer_long {
         compatible = "zmk,input-processor-temp-layer";
         #input-processor-cells = <2>;
 
-        /* クリック系の“位置”は即解除させない（仮の番号） */
         excluded-positions = <20 27 33 34 35 36 38 45 46 47 48>;
         require-prior-idle-ms = <250>;
     };
@@ -97,78 +91,55 @@
     compatible = "zmk,input-listener";
     device = <&trackball>;
 
-    /* 60s のみ（250msはマクロ側で処理） */
+    /* ベース：動いたら layer1 を 60s 付与（あなたの現状維持） */
     input-processors = <
         &zip_temp_layer_long  1 60000
     >;
 
     /* ============================================================
-     * 目的:
-     * 1) マウスレイヤー時のカーソルが「軸は合ってるが反転」 → 反転補正を追加
-     * 2) スクロールレイヤーで「片軸制限が効かず両軸でスクロール」 → 片軸を確実に殺す
-     * 3) スクロールレイヤーに入ってもカーソルが動き続ける → スクロール中はカーソルを無効化
-     *
-     * 方針:
-     * - cursor_mouse は layers=<1> のみに限定し、さらに (X+Y) を反転させて直感に合わせる
-     * - scroller_v / scroller_h では「片軸 kill」を mapper の前で確実に入れる
-     * - スクロール中に cursor_mouse が同時発火しないよう、cursor_mouse を layers=<1> のみにし、
-     *   スクロールレイヤー(5/6)では cursor 用のパスを作らない
-     *   （＝スクロールレイヤーに入った瞬間、カーソルパスが消えてスクロールに切り替わる）
+     * 重要：スクロールを最優先にするため、override を上に置く
+     * layer1(MOUSE)が同時にONでも、5/6が勝つようにする
      * ============================================================ */
 
-    /* --- カーソル（マウスレイヤー） --- */
-    cursor_mouse {
-        layers = <1>; /* MOUSE layer only */
-        input-processors = <
-            /* 縦横は既に合っているので XY_SWAP は維持 */
-            &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP)
-
-            /* 反転しているので X/Y を反転（両方） */
-            &zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)
-        >;
-    };
-
-    /* --- 縦スクロール：Xだけ縦ホイール（右=下／左=上）, Y 無効 --- */
+    /* --- 縦スクロール（layer 5）：Xだけで縦ホイール、Y成分は殺す --- */
     scroller_v {
         layers = <5>;
         input-processors = <
-            /* スクロールは今の方向が正しいので、現状維持 */
+            /* Xで縦スクロールしたいので、XY_SWAPして X→Y にする */
             &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP)
 
-            /* ★片軸 kill を “確実に”：
-             *   XY_SWAP 後の「Y成分」を 0 にして、X成分だけ残す想定。
-             *   → どの軸に動かしてもスクロールしてしまう症状を潰す。
-             */
-            &zip_y_scaler 0 1
+            /* （SWAP後）Xは元Yなので殺す → “片側軸kill” */
+            &zip_x_scaler 0 1
 
-            /* 残す軸（X成分）のゲイン（必要なら後で調整） */
-            &zip_x_scaler 1 1
+            /* （SWAP後）Yは元Xなので残す（必要ならここで感度調整） */
+            &zip_y_scaler 1 1
 
+            /* Y(=縦)をWHEELへ、XをHWHEELへマップする既定マッパ */
             &zip_xy_to_scroll_mapper
 
-            /* スクロール量（現状よりやや強め。必要なら 1 6 / 1 4 などへ） */
-            &zip_scroll_scaler 1 12
+            /* スクロール量：小さすぎるならここを強める（まずは 1/3） */
+            &zip_scroll_scaler 1 15
         >;
     };
 
-    /* --- 横スクロール：X を横ホイール, Y 無効 --- */
+    /* --- 横スクロール（layer 6）：Xだけで横ホイール、Y成分は殺す --- */
     scroller_h {
         layers = <6>;
         input-processors = <
-            /* まず片軸 kill を先に入れる（Yを0） */
+            /* Yを殺して Xだけ残す → “片側軸kill” */
             &zip_y_scaler 0 1
-
-            /* X成分を残す */
             &zip_x_scaler 1 1
 
             &zip_xy_to_scroll_mapper
 
-            /* 方向は現状維持：反転はそのまま */
+            /* 方向は現状維持（あなたの右=下/左=上 等の整合用） */
             &zip_scroll_transform (INPUT_TRANSFORM_X_INVERT)
 
-            /* スクロール量（縦と同等に） */
-            &zip_scroll_scaler 1 12
+            /* スクロール量：小さすぎるならここを強める（まずは 1/3） */
+            &zip_scroll_scaler 1 15
         >;
     };
+
+    /* カーソルは「今完璧」なので override を置かず、素のREL_X/REL_Yをそのまま使う */
   };
 };
