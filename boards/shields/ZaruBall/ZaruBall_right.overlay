@@ -1,36 +1,32 @@
 #include "ZaruBall.dtsi"
 #include <input/processors.dtsi>
 #include <dt-bindings/zmk/input_transform.h>
-
-/* evt-type / x-input-code / y-input-code 用 */
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 
 &xiao_serial { status = "disabled"; };
 
-/* matrix transformでのピン数オフセット */
 &default_transform {
     col-offset = <12>;
     row-offset = <12>;
 };
 
 &kscan0 {
-    gpios = <&xiao_d 0 GPIO_ACTIVE_HIGH>, /* M1 */
-            <&xiao_d 1 GPIO_ACTIVE_HIGH>, /* M2 */
-            <&xiao_d 2 GPIO_ACTIVE_HIGH>, /* M3 */
-            <&xiao_d 3 GPIO_ACTIVE_HIGH>, /* M4 */
-            <&xiao_d 4 GPIO_ACTIVE_HIGH>, /* M5 */
-            <&xiao_d 5 GPIO_ACTIVE_HIGH>; /* M6 */
+    gpios = <&xiao_d 0 GPIO_ACTIVE_HIGH>,
+            <&xiao_d 1 GPIO_ACTIVE_HIGH>,
+            <&xiao_d 2 GPIO_ACTIVE_HIGH>,
+            <&xiao_d 3 GPIO_ACTIVE_HIGH>,
+            <&xiao_d 4 GPIO_ACTIVE_HIGH>,
+            <&xiao_d 5 GPIO_ACTIVE_HIGH>;
 
-    interrupt-gpios = <&xiao_d 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>; /* IGPIO */
+    interrupt-gpios = <&xiao_d 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
 };
 
-/* pmw-3610-driver（古いブランチ:pointers-move-scroll）------------------------ */
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 1, 15)>,  /* SCLK */
-                    <NRF_PSEL(SPIM_MOSI, 1, 13)>, /* SDIO */
-                    <NRF_PSEL(SPIM_MISO, 1, 13)>; /* SDIO */
+            psels = <NRF_PSEL(SPIM_SCK, 1, 15)>,
+                    <NRF_PSEL(SPIM_MOSI, 1, 13)>,
+                    <NRF_PSEL(SPIM_MISO, 1, 13)>;
         };
     };
 
@@ -50,28 +46,38 @@
     pinctrl-0 = <&spi0_default>;
     pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
-    cs-gpios = <&gpio1 14 GPIO_ACTIVE_LOW>; /* CS */
+    cs-gpios = <&gpio1 14 GPIO_ACTIVE_LOW>;
 
     trackball: trackball@0 {
         status = "okay";
         compatible = "pixart,pmw3610";
         reg = <0>;
         spi-max-frequency = <2000000>;
-        irq-gpios = <&gpio1 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* MOTION */
+        irq-gpios = <&gpio1 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 
-        /* 体感（速度/スクロール量） */
-        cpi = <1200>;
+        cpi = <2000>;
 
-        /* required (pixart,pmw3610.yml) */
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;
 
-        /* optional features */
-        /* snipe-layers = <1 2>; */
-        /* automouse-layer = <1>; */
-        /* force-awake; */
-        /* force-awake-4ms-mode; */
+        /*
+         * ここが “本丸”：
+         * 以前 .conf でやってた ORIENTATION/INVERT を overlay 側で補正する。
+         *
+         * あなたの現状は「軸も方向も逆」＝ 90度回転＋反転が崩れてる典型。
+         * まず「軸を戻す」＝ XY_SWAP をここで吸収し、以後は X=横 Y=縦で統一する。
+         */
+        input-processors = <
+            /* ORIENTATION_90 相当：まず軸を戻す */
+            &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP)
+
+            /* 方向が逆になっているので、必要な方だけ反転。
+             * まずは「両方逆」症状に合わせて両方反転にしている。
+             * もし片方だけ逆に見えるなら、ここを片方だけにする。
+             */
+            &zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)
+        >;
     };
 };
 
@@ -80,7 +86,6 @@
     zip_temp_layer_long: zip_temp_layer_long {
         compatible = "zmk,input-processor-temp-layer";
         #input-processor-cells = <2>;
-
         excluded-positions = <20 27 33 34 35 36 38 45 46 47 48>;
         require-prior-idle-ms = <250>;
     };
@@ -91,55 +96,43 @@
     compatible = "zmk,input-listener";
     device = <&trackball>;
 
-    /* ベース：動いたら layer1 を 60s 付与（あなたの現状維持） */
     input-processors = <
         &zip_temp_layer_long  1 60000
     >;
 
-    /* ============================================================
-     * 重要：スクロールを最優先にするため、override を上に置く
-     * layer1(MOUSE)が同時にONでも、5/6が勝つようにする
-     * ============================================================ */
-
-    /* --- 縦スクロール（layer 5）：Xだけで縦ホイール、Y成分は殺す --- */
+    /* --- 縦スクロール（layer5）：Yだけ残す（Xは殺す） --- */
     scroller_v {
         layers = <5>;
         input-processors = <
-            /* Xで縦スクロールしたいので、XY_SWAPして X→Y にする */
-            &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP)
-
-            /* （SWAP後）Xは元Yなので殺す → “片側軸kill” */
             &zip_x_scaler 0 1
-
-            /* （SWAP後）Yは元Xなので残す（必要ならここで感度調整） */
             &zip_y_scaler 1 1
-
-            /* Y(=縦)をWHEELへ、XをHWHEELへマップする既定マッパ */
             &zip_xy_to_scroll_mapper
 
-            /* スクロール量：小さすぎるならここを強める（まずは 1/3） */
-            &zip_scroll_scaler 1 15
+            /* 量：必要ならここだけ上げる */
+            &zip_scroll_scaler 1 25
         >;
     };
 
-    /* --- 横スクロール（layer 6）：Xだけで横ホイール、Y成分は殺す --- */
+    /* --- 横スクロール（layer6）：Xだけ残す（Yは殺す） --- */
     scroller_h {
         layers = <6>;
         input-processors = <
-            /* Yを殺して Xだけ残す → “片側軸kill” */
             &zip_y_scaler 0 1
             &zip_x_scaler 1 1
-
             &zip_xy_to_scroll_mapper
 
-            /* 方向は現状維持（あなたの右=下/左=上 等の整合用） */
+            /* 横方向は現状維持（必要なら消す/変える） */
             &zip_scroll_transform (INPUT_TRANSFORM_X_INVERT)
 
-            /* スクロール量：小さすぎるならここを強める（まずは 1/3） */
-            &zip_scroll_scaler 1 15
+            &zip_scroll_scaler 1 28
         >;
     };
-
-    /* カーソルは「今完璧」なので override を置かず、素のREL_X/REL_Yをそのまま使う */
+    cursor_mouse {
+        layers = <1>;
+        input-processors = <
+            &zip_x_scaler 1 2
+            &zip_y_scaler 1 2
+        >;
+    };
   };
 };
