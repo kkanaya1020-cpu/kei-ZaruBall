@@ -162,6 +162,13 @@
             #binding-cells = <0>;
             bindings = <&kp RG(RS(T))>, <&kp C_MUTE>;
         };
+
+        td_chrome: td_chrome {
+            compatible = "zmk,behavior-tap-dance";
+            label = "TD_CHROME";
+            #binding-cells = <0>;
+            bindings = <&kp RS(RG(N))>, <&kp LG(LA(I))>;
+        };
     };
 };
 
@@ -190,7 +197,7 @@
                 <&macro_param_1to1 &mkp MACRO_PLACEHOLDER>,
                 <&macro_wait_time 120>,
                 <&macro_tap>,
-                <&tog 1>;
+                <&to 0>;
 
             label = "MKP_EXIT_AML";
         };
@@ -209,7 +216,7 @@
                 <&macro_param_1to1 &mkp MACRO_PLACEHOLDER>,
                 <&macro_wait_time 120>,
                 <&macro_tap>,
-                <&tog 1>;
+                <&to 0>;
 
             label = "MKP_DBLCLICK_EXIT_AML";
         };
@@ -230,9 +237,30 @@
                 <&kp LEFT_GUI>,
                 <&macro_wait_time 120>,
                 <&macro_tap>,
-                <&tog 1>;
+                <&to 0>;
 
             label = "CMD_CLICK";
+        };
+
+        alt_click: alt_click {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LEFT_ALT>,
+                <&macro_wait_time 25>,
+                <&mkp LCLK>,
+                <&macro_pause_for_release>,
+                <&macro_release>,
+                <&macro_wait_time 5>,
+                <&mkp LCLK>,
+                <&macro_wait_time 15>,
+                <&kp LEFT_ALT>,
+                <&macro_wait_time 120>,
+                <&macro_tap>,
+                <&to 0>;
+
+            label = "ALT_CLICK";
         };
     };
 };
@@ -256,11 +284,11 @@
         mouse_layer {
             display-name = "Mouse";
             bindings = <
-&trans  &trans  &trans      &trans              &trans     &trans            &trans  &trans  &trans  &trans            &trans  &trans     &trans              &trans      &trans  &trans
-&trans  &trans  &trans      &trans              &mkp LCLK  &trans            &trans  &trans  &trans  &trans            &trans  &mkp LCLK  &trans              &trans      &trans  &trans
-&trans  &trans  &cmd_click  &mkp_exit_AML RCLK  &td_click  &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &td_click  &mkp_exit_AML RCLK  &cmd_click  &trans  &trans
-&trans  &trans  &trans      &trans              &trans     &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &trans     &trans              &trans      &trans  &trans
-&trans  &trans              &trans              &trans     &trans  &trans                                      &trans  &trans                                                     &trans
+&trans  &trans      &trans      &trans              &trans     &trans            &trans  &trans  &trans  &trans            &trans  &trans     &trans              &trans      &trans      &trans
+&trans  &trans      &trans      &trans              &mkp LCLK  &trans            &trans  &trans  &trans  &trans            &trans  &mkp LCLK  &trans              &trans      &trans      &trans
+&trans  &alt_click  &cmd_click  &mkp_exit_AML RCLK  &td_click  &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &td_click  &mkp_exit_AML RCLK  &cmd_click  &alt_click  &trans
+&trans  &trans      &trans      &trans              &trans     &trans  &trans    &trans  &trans  &trans  &trans    &trans  &trans  &trans     &trans              &trans      &trans      &trans
+&trans  &trans                  &trans              &trans     &trans  &trans                                      &trans  &trans                                                         &trans
             >;
         };
 
@@ -268,11 +296,11 @@
             display-name = "Fn";
             sensor-bindings = <&inc_dec_kp F14 F15>;
             bindings = <
-&trans  &none           &none         &none           &none            &none                                &trans  &trans  &trans  &trans               &bt BT_SEL 0         &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &bt BT_CLR_ALL
-&trans  &none           &none         &none           &none            &none                                &trans  &trans  &trans  &trans               &none                &kp F1        &kp F2        &kp F3        &kp F4        &kp RC(GRAVE)
-&trans  &kp LEFT_ARROW  &kp UP_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &none               &none            &trans  &trans  &trans  &trans    &none      &none                &kp F5        &kp F6        &kp F7        &kp F8        &trans
-&trans  &none           &none         &none           &none            &none               &none            &trans  &trans  &trans  &trans    &none      &none                &kp F9        &kp F10       &kp F11       &kp F12       &studio_unlock
-&trans  &none                         &none           &kp SPACE        &kp LG(LEFT_ARROW)  &kp BACKSPACE                                      &kp ENTER  &kp RG(RIGHT_ARROW)                                                          &trans
+&trans  &trans  &trans  &trans  &trans     &trans                               &trans  &trans  &trans  &trans               &trans               &trans              &trans               &trans         &trans     &trans
+&trans  &trans  &trans  &trans  &trans     &trans                               &trans  &trans  &trans  &trans               &trans               &kp LG(LEFT_ARROW)  &kp LG(RIGHT_ARROW)  &td_chrome     &trans     &trans
+&trans  &trans  &trans  &trans  &trans     &trans              &trans           &trans  &trans  &trans  &trans    &trans     &trans               &kp LS(LC(TAB))     &kp LC(TAB)          &kp RS(RG(A))  &trans     &trans
+&trans  &trans  &trans  &trans  &trans     &trans              &trans           &trans  &trans  &trans  &trans    &trans     &trans               &kp LA(LEFT_ARROW)  &kp LA(RIGHT_ARROW)  &td_window     &kp RA(R)  &trans
+&trans  &trans          &trans  &kp SPACE  &kp LG(LEFT_ARROW)  &kp BACKSPACE                                      &kp ENTER  &kp RG(RIGHT_ARROW)                                                                     &trans
             >;
         };
 
@@ -316,11 +344,11 @@
         scr_h_layer {
             display-name = "SCR_H";
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans                   &trans  &trans                &trans                 &trans       &trans             &trans
-&trans  &trans  &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans                   &trans  &kp RS(LEFT_BRACKET)  &kp RS(RIGHT_BRACKET)  &kp RS(SQT)  &kp RS(BACKSLASH)  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans    &trans         &trans  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp SQT      &kp RS(GRAVE)      &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans    &trans         &trans  &trans                &kp GRAVE              &trans       &kp BACKSLASH      &trans
-&trans  &trans          &trans  &trans  &trans  &trans                                      &kp RG(ENTER)  &trans                                                                               &trans
+&trans  &none           &none         &none           &none            &none                                &trans  &trans  &trans  &trans               &bt BT_SEL 0         &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &bt BT_CLR_ALL
+&trans  &none           &none         &none           &none            &none                                &trans  &trans  &trans  &trans               &none                &kp F1        &kp F2        &kp F3        &kp F4        &kp RC(GRAVE)
+&trans  &kp LEFT_ARROW  &kp UP_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &none               &none            &trans  &trans  &trans  &trans    &none      &none                &kp F5        &kp F6        &kp F7        &kp F8        &trans
+&trans  &none           &none         &none           &none            &none               &none            &trans  &trans  &trans  &trans    &none      &none                &kp F9        &kp F10       &kp F11       &kp F12       &studio_unlock
+&trans  &none                         &none           &kp SPACE        &kp LG(LEFT_ARROW)  &kp BACKSPACE                                      &kp ENTER  &kp RG(RIGHT_ARROW)                                                          &trans
             >;
         };
 
