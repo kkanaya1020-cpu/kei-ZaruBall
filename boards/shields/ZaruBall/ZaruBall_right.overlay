@@ -57,23 +57,20 @@
     trackball: trackball@0 {
         status = "okay";
         compatible = "pixart,pmw3610";
-        cpi = <1000>;
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio1 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* MOTION */
 
+        /* 体感（速度/スクロール量）を戻すための要 */
+        cpi = <1000>;
+
         /* ===== required (pixart,pmw3610.yml) =====
-         * 既存の input-processors (zip_xy_transform / zip_xy_to_scroll_mapper 等) が
-         * 想定する「相対移動（REL）」として出すため、REL系で揃える。
+         * zip_xy_transform / zip_xy_to_scroll_mapper 等が想定する
+         * 「相対移動（REL）」として出すため、REL系で揃える。
          */
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;
-
-        /* 体感を「以前と同じ」に寄せるための要（以前の値が分かってるならその値にする）
-         * 例: 600 / 800 / 1200 ...（あなたの過去設定に合わせて）
-         */
-        /* cpi = <800>; */
 
         /*   optional features   */
         /* snipe-layers = <1 2>; */
@@ -90,7 +87,7 @@
         #input-processor-cells = <2>;
 
         /* クリック系の“位置”は即解除させない（仮の番号） */
-        excluded-positions = <20 27 34 35 36 38 45 46 47>;
+        excluded-positions = <20 27 33 34 35 36 38 45 46 47 48>;
         require-prior-idle-ms = <250>;
     };
 };
@@ -100,10 +97,21 @@
     compatible = "zmk,input-listener";
     device = <&trackball>;
 
-    /* 30s のみ（250msはマクロ側で処理） */
+    /* 60s のみ（250msはマクロ側で処理） */
     input-processors = <
-        &zip_temp_layer_long  1 30000
+        &zip_temp_layer_long  1 60000
     >;
+
+    /* --- カーソル（マウスレイヤー）：
+     * マウスレイヤー時だけ縦横が逆になる症状を補正するため、
+     * カーソル側にも XY_SWAP を適用する。
+     */
+    cursor_mouse {
+        layers = <1>; /* MOUSE layer */
+        input-processors = <
+            &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP)
+        >;
+    };
 
     /* --- 縦スクロール：Xだけ縦ホイール（右=下／左=上）, Y 無効 --- */
     scroller_v {
@@ -111,11 +119,11 @@
         input-processors = <
             &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP)
             &zip_x_scaler 0 1
-            /* 1/10 → 1/9 で初動をさらに出しやすく（わずかに軽く） */
-            &zip_y_scaler 1 8
+            /* 初動/量が極小になっていたため、ここは現状維持（必要なら 1 1 へ） */
+            &zip_y_scaler 1 1
             &zip_xy_to_scroll_mapper
-            /* 1/14 → 1/13 で全体の出力をほんの少し強めに */
-            &zip_scroll_scaler 1 12
+            /* 量が小さすぎる原因が 1/8 * 1/12 (=1/96) なので、ここを強める */
+            &zip_scroll_scaler 1 8
         >;
     };
 
@@ -125,13 +133,13 @@
         /* Y は未使用（ダミー） */
         input-processors = <
             &zip_y_scaler 0 1
-            /* 1/12 → 1/11 にして初動をわずかに軽く */
-            &zip_x_scaler 1 8
+            /* 初動/量が極小になっていたため、ここは現状維持（必要なら 1 1 へ） */
+            &zip_x_scaler 1 1
             &zip_xy_to_scroll_mapper
             /* 方向は現状維持：反転はそのまま */
             &zip_scroll_transform (INPUT_TRANSFORM_X_INVERT)
-            /* 1/14 → 1/13 にして出力をわずかに強く */
-            &zip_scroll_scaler 1 12
+            /* 量が小さすぎる原因が 1/8 * 1/12 (=1/96) なので、ここを強める */
+            &zip_scroll_scaler 1 8
         >;
     };
   };
