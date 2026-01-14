@@ -296,11 +296,11 @@
             display-name = "Fn";
             sensor-bindings = <&inc_dec_kp F14 F15>;
             bindings = <
-&trans  &trans  &trans  &trans  &trans     &trans                               &trans  &trans  &trans  &trans               &trans               &trans              &trans               &trans         &trans     &trans
-&trans  &trans  &trans  &trans  &trans     &trans                               &trans  &trans  &trans  &trans               &trans               &kp LG(LEFT_ARROW)  &kp LG(RIGHT_ARROW)  &td_chrome     &trans     &trans
-&trans  &trans  &trans  &trans  &trans     &trans              &trans           &trans  &trans  &trans  &trans    &trans     &trans               &kp LS(LC(TAB))     &kp LC(TAB)          &kp RS(RG(A))  &trans     &trans
-&trans  &trans  &trans  &trans  &trans     &trans              &trans           &trans  &trans  &trans  &trans    &trans     &trans               &kp LA(LEFT_ARROW)  &kp LA(RIGHT_ARROW)  &td_window     &kp RA(R)  &trans
-&trans  &trans          &trans  &kp SPACE  &kp LG(LEFT_ARROW)  &kp BACKSPACE                                      &kp ENTER  &kp RG(RIGHT_ARROW)                                                                     &trans
+&trans  &trans  &trans  &trans  &trans     &trans                               &trans  &trans  &trans  &trans                       &trans               &trans              &trans               &trans         &trans     &trans
+&trans  &trans  &trans  &trans  &trans     &trans                               &trans  &trans  &trans  &trans                       &trans               &kp LG(LEFT_ARROW)  &kp LG(RIGHT_ARROW)  &td_chrome     &trans     &trans
+&trans  &trans  &trans  &trans  &trans     &trans              &trans           &trans  &trans  &trans  &trans    &kp RG(RS(EQUAL))  &trans               &kp LS(LC(TAB))     &kp LC(TAB)          &kp RS(RG(A))  &trans     &trans
+&trans  &trans  &trans  &trans  &trans     &trans              &trans           &trans  &trans  &trans  &trans    &kp RG(MINUS)      &trans               &kp LA(LEFT_ARROW)  &kp LA(RIGHT_ARROW)  &td_window     &kp RA(R)  &trans
+&trans  &trans          &trans  &kp SPACE  &kp LG(LEFT_ARROW)  &kp BACKSPACE                                      &kp ENTER          &kp RG(RIGHT_ARROW)                                                                     &trans
             >;
         };
 
