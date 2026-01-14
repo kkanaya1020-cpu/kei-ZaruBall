@@ -2,6 +2,9 @@
 #include <input/processors.dtsi>
 #include <dt-bindings/zmk/input_transform.h>
 
+/* evt-type / x-input-code / y-input-code 用 */
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+
 &xiao_serial { status = "disabled"; };
 
 /* matrix transformでのピン数オフセット */
@@ -27,7 +30,7 @@
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 1, 15)>, /* SCLK */
+            psels = <NRF_PSEL(SPIM_SCK, 1, 15)>,  /* SCLK */
                     <NRF_PSEL(SPIM_MOSI, 1, 13)>, /* SDIO */
                     <NRF_PSEL(SPIM_MISO, 1, 13)>; /* SDIO */
         };
@@ -54,10 +57,23 @@
     trackball: trackball@0 {
         status = "okay";
         compatible = "pixart,pmw3610";
-        evt-type = <0>;
+
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio1 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* MOTION */
+
+        /* ===== required (pixart,pmw3610.yml) =====
+         * 既存の input-processors (zip_xy_transform / zip_xy_to_scroll_mapper 等) が
+         * 想定する「相対移動（REL）」として出すため、REL系で揃える。
+         */
+        evt-type = <INPUT_EV_REL>;
+        x-input-code = <INPUT_REL_X>;
+        y-input-code = <INPUT_REL_Y>;
+
+        /* 体感を「以前と同じ」に寄せるための要（以前の値が分かってるならその値にする）
+         * 例: 600 / 800 / 1200 ...（あなたの過去設定に合わせて）
+         */
+        /* cpi = <800>; */
 
         /*   optional features   */
         /* snipe-layers = <1 2>; */
