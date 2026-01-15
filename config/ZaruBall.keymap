@@ -303,11 +303,11 @@
             display-name = "Fn";
             sensor-bindings = <&inc_dec_kp F14 F15>;
             bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans                        &trans  &trans  &trans  &trans                       &trans     &trans              &trans               &trans         &trans         &trans
-&trans  &trans  &trans  &trans  &trans  &trans                        &trans  &trans  &trans  &trans                       &trans     &trans              &trans               &trans         &trans         &trans
-&trans  &trans  &trans  &trans  &trans  &trans       &trans           &trans  &trans  &trans  &trans    &kp RG(RS(EQUAL))  &trans     &kp LS(LC(TAB))     &kp LC(TAB)          &kp RG(T)      &kp RG(RS(T))  &trans
-&trans  &trans  &trans  &trans  &trans  &trans       &trans           &trans  &trans  &trans  &trans    &kp RG(MINUS)      &trans     &kp LG(LEFT_ARROW)  &kp LG(RIGHT_ARROW)  &kp RG(RS(A))  &td_chrome     &trans
-&trans  &trans          &trans  &trans  &td_HomeEnd  &kp BACKSPACE                                      &kp ENTER          &kp RG(W)                                                                         &trans
+&trans  &trans  &trans  &trans  &trans  &trans                        &trans  &trans  &trans  &trans                       &trans     &trans              &trans               &trans     &trans         &trans
+&trans  &trans  &trans  &trans  &trans  &trans                        &trans  &trans  &trans  &trans                       &trans     &trans              &trans               &trans     &trans         &trans
+&trans  &trans  &trans  &trans  &trans  &trans       &trans           &trans  &trans  &trans  &trans    &kp RG(RS(EQUAL))  &trans     &kp LS(LC(TAB))     &kp LC(TAB)          &kp RG(T)  &kp RG(RS(T))  &trans
+&trans  &trans  &trans  &trans  &trans  &trans       &trans           &trans  &trans  &trans  &trans    &kp RG(MINUS)      &trans     &kp LG(LEFT_ARROW)  &kp LG(RIGHT_ARROW)  &kp RG(R)  &td_chrome     &trans
+&trans  &trans          &trans  &trans  &td_HomeEnd  &kp BACKSPACE                                      &kp ENTER          &kp RG(W)                                                                     &trans
             >;
         };
 
